@@ -7,8 +7,8 @@ package com.bitlab.dao;
 
 /**
  *
- * @author Maury
+ * @author Gustavo
  */
 public class Empleado {
-    
+    //esto es prueba para git
 }
