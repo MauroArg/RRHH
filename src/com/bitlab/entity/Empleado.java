@@ -9,6 +9,7 @@ package com.bitlab.entity;
  *
  * @author Maury
  */
-public class Empleado {
-    
+public class Empleado 
+{
+    //Comentario de Mauro
 }
