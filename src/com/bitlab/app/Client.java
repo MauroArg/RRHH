@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Gustavo Gómez
- * class: Socket
- * fecha: 2020-07-02
+ * @author Mauricio Argumedo
+ * class: Client
+ * date: 2020-07-04
  */
 public class Client {
     //-
