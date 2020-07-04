@@ -113,10 +113,96 @@ public class Client {
                     log = false;
                     System.out.println(logResponse);
                 }
+                else if(logResponse.equals("wrongEmail"))
+                {
+                    System.out.println("Este email no corresponde con su usuario\n");
+                }
+            }
+            log = true;
+            while(log)
+            {
+                System.out.println("Ingrese el codigo enviado a su correo: ");
+                out.println(read.nextLine());
+                
+                logResponse = in.readLine();
+                if (logResponse.equals("1")) 
+                {
+                    log = false;
+                    menuAdmin(in, out, read);
+                }
+                else if(logResponse.equals("2"))
+                {
+                    log = false;
+                    menuRrhh(in, out, read);
+                }
+                else
+                {
+                    System.out.println("El codigo ingresado es incorrecto");
+                }
+                
             }
         } catch (IOException ex) 
         {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static void menuAdmin(BufferedReader in, PrintWriter out, Scanner read)
+    {
+        String serverResponse = "";//Server petitions
+        String logResponse = "";// log result
+        Encryption enc = new Encryption();
+        boolean log = true;
+        
+        while(log)
+        {
+            StringBuilder menu = new StringBuilder();
+            menu.append("Bienvenido. ¿Qué desea ver/realizar?\n");
+            menu.append("[1] Gestionar departamentos.\n");
+            menu.append("[2] Gestionar empleados.\n");
+            menu.append("[3] Gestionar usuarios.\n");
+            menu.append("[4] Gestionar roles.\n");
+            menu.append("[5] Salir.\n");
+            menu.append("Por favor escoga una respuesta: ");
+            System.out.println(menu);
+        }
+            
+            
+        
+    }
+    
+    public static void menuRrhh(BufferedReader in, PrintWriter out, Scanner read)
+    {
+        String serverResponse = "";//Server petitions
+        String logResponse = "";// log result
+        Encryption enc = new Encryption();
+        boolean log = true;
+        
+        while(log)
+        {
+            StringBuilder menu = new StringBuilder();
+            menu.append("Bienvenido. ¿Qué desea ver/realizar?\n");
+            menu.append("[1] Gestionar departamentos.\n");
+            menu.append("[2] Gestionar empleados.\n");
+            menu.append("[3] Gestionar usuarios.\n");
+            menu.append("[4] Gestionar roles.\n");
+            menu.append("[5] Salir.\n");
+            menu.append("Por favor escoga una respuesta: ");
+            System.out.println(menu);
+        }
+    }
+    
+    //Validacion de si el valor ingresado es numerico
+    private static boolean isNumeric(String string)
+    {
+	try 
+        {
+		Integer.parseInt(string);
+		return true;
+	} 
+        catch (NumberFormatException nfe)
+        {
+		return false;
+	}
     }
 }
