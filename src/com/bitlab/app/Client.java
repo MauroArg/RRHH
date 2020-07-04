@@ -97,7 +97,19 @@ public class Client {
                 if(logResponse.equals("logSuccessful")){log=false;System.out.println(logResponse);}
                 else{System.out.println(logResponse);}
             }
-            
+            log = true;
+            while(log)
+            {
+                System.out.print("Ingrese el correo asociado a su usuario: ");
+                out.println(read.nextLine());
+                
+                logResponse = in.readLine();
+                if(logResponse.equals("logSuccessgul"))
+                {
+                    log = false;
+                    System.out.println(logResponse);
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
