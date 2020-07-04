@@ -80,6 +80,7 @@ public class Client {
     public static void loginProcess(BufferedReader in, PrintWriter out, Scanner read){
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
+        Encryption enc = new Encryption();
         boolean log = true;
         try {
             //log validation
@@ -91,10 +92,13 @@ public class Client {
                 //password petition
                 serverResponse = in.readLine();
                 System.out.print(serverResponse);
-                out.println(read.nextLine());
+                out.println(enc.encrypt(read.nextLine()));
                 //log result validation
                 logResponse = in.readLine();
-                if(logResponse.equals("logSuccessful")){log=false;System.out.println(logResponse);}
+                if(logResponse.equals("logSuccessful"))
+                {
+                    log=false;System.out.println(logResponse);
+                }
                 else{System.out.println(logResponse);}
             }
             log = true;
@@ -110,7 +114,8 @@ public class Client {
                     System.out.println(logResponse);
                 }
             }
-        } catch (IOException ex) {
+        } catch (IOException ex) 
+        {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
