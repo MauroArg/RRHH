@@ -97,9 +97,13 @@ public class Client {
                 logResponse = in.readLine();
                 if(logResponse.equals("logSuccessful"))
                 {
-                    log=false;System.out.println(logResponse);
+                    log=false;
+                    System.out.println("Ingreso Correctamente");
                 }
-                else{System.out.println(logResponse);}
+                else
+                {
+                    System.out.println("Usuario o contraseña incorrectos");
+                }
             }
             log = true;
             while(log)
@@ -108,7 +112,7 @@ public class Client {
                 out.println(read.nextLine());
                 
                 logResponse = in.readLine();
-                if(logResponse.equals("logSuccessgul"))
+                if(logResponse.equals("vSuccessgul"))
                 {
                     log = false;
                     System.out.println(logResponse);
@@ -151,11 +155,13 @@ public class Client {
     {
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
-        Encryption enc = new Encryption();
+        String option;//Menu option selected
         boolean log = true;
         
+        log = true;
         while(log)
         {
+            //Administrator menu
             StringBuilder menu = new StringBuilder();
             menu.append("Bienvenido. ¿Qué desea ver/realizar?\n");
             menu.append("[1] Gestionar departamentos.\n");
@@ -165,6 +171,45 @@ public class Client {
             menu.append("[5] Salir.\n");
             menu.append("Por favor escoga una respuesta: ");
             System.out.println(menu);
+            option = read.nextLine();
+            
+            //Verify if the option  selected is a number
+            if (isNumeric(option)) 
+            {
+                switch(option)
+                {
+                    case "1":
+                        out.println("gestDepartament");
+                        
+                        break;
+                    case "2":
+                        out.println("gestEmploy");
+                        
+                        break;
+                    case "3":
+                        out.println("gestUser");
+                        
+                        break;
+                    case "4":
+                        out.println("gestRol");
+                        
+                        break;
+                    case "5":
+                        if (exit(read)) 
+                        {
+                            log = false;
+                        }
+                        else
+                        {
+                            System.out.println("\n");
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                System.out.println("Por favor ingrese un valor numérico.");
+            }
         }
             
             
@@ -175,20 +220,60 @@ public class Client {
     {
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
-        Encryption enc = new Encryption();
+        String option;//Menu option selected
         boolean log = true;
         
         while(log)
         {
+            //RRHH menu
             StringBuilder menu = new StringBuilder();
             menu.append("Bienvenido. ¿Qué desea ver/realizar?\n");
-            menu.append("[1] Gestionar departamentos.\n");
-            menu.append("[2] Gestionar empleados.\n");
-            menu.append("[3] Gestionar usuarios.\n");
-            menu.append("[4] Gestionar roles.\n");
+            menu.append("[1] Actualizar datos de empleados.\n");
+            menu.append("[2] Contratar empleado.\n");
+            menu.append("[3] Ver pagos generados.\n");
+            menu.append("[4] Generar pagos en planilla.\n");
             menu.append("[5] Salir.\n");
             menu.append("Por favor escoga una respuesta: ");
             System.out.println(menu);
+            
+            option = read.nextLine();
+            //Verify if the option  selected is a number
+            if (isNumeric(option)) 
+            {
+                switch(option)
+                {
+                    case "1":
+                        out.println("updateEmploy");
+                        
+                        break;
+                    case "2":
+                        out.println("createEmploy");
+                        
+                        break;
+                    case "3":
+                        out.println("viewPayroll");
+                        
+                        break;
+                    case "4":
+                        out.println("createPayroll");
+                        
+                        break;
+                    case "5":
+                        if (exit(read)) 
+                        {
+                            log = false;
+                        }
+                        else
+                        {
+                            System.out.println("\n");
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                System.out.println("Por favor ingrese un valor numérico.");
+            }
         }
     }
     
@@ -204,5 +289,38 @@ public class Client {
         {
 		return false;
 	}
+    }
+    
+    public static boolean exit(Scanner read)
+    {
+        String option;//Menu option selected
+        boolean exit = false;//Validation for exit
+        boolean log = true;//Flag
+        
+        StringBuilder confirm = new StringBuilder();
+        confirm.append("¿Esta seguro que desea salir?\n");
+        confirm.append("[1] Salir\n");
+        confirm.append("[2] Cancelar\n");
+        while(log)
+        {
+            System.out.println(confirm);
+            option = read.nextLine();
+            switch(option)
+            {
+                case "1":
+                    exit = true;
+                    log = false;
+                    break;
+                case "2":
+                    exit = false;
+                    log = false;
+                    break;
+                default:
+                    System.out.println("Por favor ingrese un valor valido");
+                    break;
+            }
+          
+        }
+        return exit;
     }
 }
