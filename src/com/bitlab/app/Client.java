@@ -199,6 +199,7 @@ public class Client {
                             JSONArray array = (JSONArray) obj.get("departament");
                             for (Object item : array) 
                             {
+                                departament = new Departament();
                                 JSONObject object = (JSONObject) item;
                                 departament.setDep_id(Integer.parseInt(object.get("id").toString()));
                                 departament.setDep_nombre(object.get("nombre").toString());
