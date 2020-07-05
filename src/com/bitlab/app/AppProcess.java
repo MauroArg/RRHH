@@ -257,7 +257,7 @@ public class AppProcess {
             {
                 response = in.readLine();
 
-                if (response.equals("Existoso")) 
+                if (response.equals("existoso")) 
                 {
                     log = false;
                     getDep(in, out, read);
