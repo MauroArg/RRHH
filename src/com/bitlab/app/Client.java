@@ -198,12 +198,15 @@ public class Client {
                          switch (option2)
                          {
                              case "1":
+                                 out.println("list");
                                  AppProcess.showDepartament();
                                  break;
                              case "2":
+                                 out.println("create");
                                  AppProcess.createDep(in, out, read);
                                  break;
                              case "3":
+                                 out.println("update");
                                  AppProcess.updateDep(in, out, read);
                                  break;
                          }

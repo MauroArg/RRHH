@@ -309,7 +309,7 @@ public class AppProcess {
         
         try 
         {
-            if (in.readLine().equals("Exitoso"))
+            if (in.readLine().equals("exitoso"))
             {
                 getDep(in, out, read);
                 showDepartament();
