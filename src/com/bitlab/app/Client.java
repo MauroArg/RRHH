@@ -192,7 +192,7 @@ public class Client {
                     case "1":
                         out.println("gestDepartament");
                          AppProcess.getDep(in, out,read);
-                        
+                         AppProcess.showDepartament();
                         
                         break;
 

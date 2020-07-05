@@ -15,7 +15,7 @@ public class User
     private String us_usuario;
     private String us_contra;
     private String us_correo;
-    private Rol rol;
+    private Rol    rol;
 
     public User() {
     }
