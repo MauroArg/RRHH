@@ -191,38 +191,8 @@ public class Client {
                 {
                     case "1":
                         out.println("gestDepartament");
-                         
-                        try
-                        {
-                            logResponse = in.readLine();
-                            JSONObject obj = (JSONObject) parser.parse(logResponse);
-                            JSONArray array = (JSONArray) obj.get("departament");
-                            for (Object item : array) 
-                            {
-                                departament = new Departament();
-                                JSONObject object = (JSONObject) item;
-                                departament.setDep_id(Integer.parseInt(object.get("id").toString()));
-                                departament.setDep_nombre(object.get("nombre").toString());
-                                departamentListJSON.add(departament);
-                            }
-                            System.out.println("\nId\tNombre");
-                            for (int i = 0; i < departamentListJSON.size(); i++) 
-                            {
-                                System.out.println(departamentListJSON.get(i).getDep_id()+"\t"+departamentListJSON.get(i).getDep_nombre());
-                            }
-                            
-                        }
-                        catch(ParseException | IOException ex)
-                        {
-                            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                       
+                         AppProcess.getDep(in, out,read);
                         
-                        for(Departament dep : departamentListJSON)
-                        {
-                            System.out.println(dep.getDep_id());
-                            System.out.println(dep.getDep_nombre());
-                        }
                         
                         break;
 
