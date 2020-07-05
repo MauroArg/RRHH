@@ -52,7 +52,7 @@ public class AppProcess {
     String correo;
     String estado;
     String longitud;
-    
+    static String depto;
     
     
     
@@ -101,6 +101,7 @@ public class AppProcess {
                 employe = new Employe();
                 JSONObject object = (JSONObject) item;
                 employe.setEmp_id(Integer.parseInt(object.get("id").toString()));
+                employe.setEmp_codigo(object.get("codigo").toString());
                 employe.setEmp_nombres(object.get("nombres").toString());
                 employe.setEmp_apellidos(object.get("apellidos").toString());
                 employe.setEmp_dui(object.get("dui").toString());
@@ -135,18 +136,19 @@ public class AppProcess {
             JSONObject obj = (JSONObject) parser.parse(logResponse);
             JSONArray array = (JSONArray) obj.get("users");
             
+            int i = 0;
             for (Object item : array)
             {
                 user = new User();
                 JSONObject object = (JSONObject) item;
                 user.setUs_id(Integer.parseInt(object.get("id").toString()));
                 user.setUs_usuario(object.get("username").toString());
-                user.setUs_contra(object.get("password").toString());
                 user.setUs_correo(object.get("correo").toString());
                 rol.setRol_id(Integer.parseInt(object.get("rol_id").toString()));
                 rol.setRol_nombre(object.get("rol_nombre").toString());
                 user.setRol(rol);
                 userListJSON.add(user);
+                i++;
             }
             
         } 
@@ -158,16 +160,16 @@ public class AppProcess {
     
     public static void showDepartament()
     {
-            System.out.println("\nId\tNombre");
+            System.out.println("\nNo\tNombre");
             for (int i = 0; i < departamentListJSON.size(); i++) 
             {
-                System.out.println(departamentListJSON.get(i).getDep_id() + "\t" + departamentListJSON.get(i).getDep_nombre());
+                System.out.println(i+1 + "\t" + departamentListJSON.get(i).getDep_nombre());
             }
     }
     
     public void showEmploy()
     {
-        System.out.println("\nId\tNombres\tApellios\tDUI\tNIT\tTelefono\tSueldo\tDireccion\tEstado\tDepartamento");
+        System.out.println("\nNo\tNombres\tApellios\tDUI\tNIT\tTelefono\tSueldo\tDireccion\tEstado\tDepartamento");
         for (int i = 0; i < employeListJSON.size(); i++) 
             {
                 longitud = employeListJSON.get(i).getEmp_nombres();
@@ -221,7 +223,7 @@ public class AppProcess {
                 }
                 
                 
-                System.out.println(employeListJSON.get(i).getEmp_id()+ "\t" +
+                System.out.println(i+1 + "\t" +
                         nombre + "\t" + apellido + "\t" + employeListJSON.get(i).getEmp_dui() + "\t" +
                         employeListJSON.get(i).getEmp_nit() + "\t" + employe.getEmp_telefono() + "\t" + 
                         "$ " +employeListJSON.get(i).getEmp_sueldo() + "\t" + direccion + "\t" + estado +
@@ -231,16 +233,107 @@ public class AppProcess {
     
     public static void showUser()
     {
-        System.out.println("\nId\tNombre\tCorreo\tRol");
+        System.out.println("\nNo\tNombre\tCorreo\tRol");
         for(int i = 0; i < userListJSON.size(); i++)
         {
-            System.out.println(userListJSON.get(i).getUs_id() + "\t" + userListJSON.get(i).getUs_usuario() + "\t" + 
+            System.out.println(i+1 + "\t" + userListJSON.get(i).getUs_usuario() + "\t" + 
                     userListJSON.get(i).getUs_correo() + "\t" + userListJSON.get(i).getRol().getRol_nombre());
+        }
+    }
+    
+    public static void createDep(BufferedReader in, PrintWriter out, Scanner read)
+    {
+        String response = "";
+        String data = "";
+        
+        boolean log = true;
+        
+        System.out.println("Ingrese el nombre del departamento: ");
+        out.println(read.nextLine());
+        
+        while(log)
+        {
+            try 
+            {
+                response = in.readLine();
+
+                if (response.equals("Existoso")) 
+                {
+                    log = false;
+                    getDep(in, out, read);
+                    System.out.println(response);
+                }
+                else
+                {
+                    System.out.println(response);
+                }
+            } 
+            catch (IOException ex) 
+            {
+                Logger.getLogger(AppProcess.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
     public static void updateDep(BufferedReader in, PrintWriter out, Scanner read)
     {
+        ArrayList<Departament> list = new ArrayList();
+        JSONObject data = new JSONObject();
+        JSONObject dep = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        
+        
+        
+        showDepartament();
+        System.out.println("¿Que departamanto quiere modificar?");
+        depto = read.nextLine();
+        int id;
+        String nombre;
+        if (isNumeric(depto)) 
+        {
+            for(int i = 0; i < departamentListJSON.size(); i++)
+            {
+                if (i == Integer.parseInt(depto)) 
+                {
+                    id = departamentListJSON.get(i).getDep_id();
+                    System.out.println("Ingrese el nuevo nombre: ");
+                    nombre = read.nextLine();
+                    
+                    dep.put("id", id);
+                    dep.put("nombre", nombre);
+                    data.put("departament", dep);
+                    out.println(data.toJSONString());
+                }
+            }
+        }
+        
+        try 
+        {
+            if (in.readLine().equals("Exitoso"))
+            {
+                getDep(in, out, read);
+                showDepartament();
+            }
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(AppProcess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
     }
+    
+    private static boolean isNumeric(String string)
+    {
+	try 
+        {
+		Integer.parseInt(string);
+		return true;
+	} 
+        catch (NumberFormatException nfe)
+        {
+		return false;
+	}
+    }
+    
 }
