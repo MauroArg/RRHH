@@ -1,13 +1,20 @@
 package com.bitlab.app;
+import com.bitlab.entity.Departament;
+import com.bitlab.entity.User;
 import com.bitlab.utility.Encryption;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * @author Mauricio Argumedo
@@ -55,7 +62,8 @@ public class Client {
             String resp;
             //-
             //LOGIN PROCESS
-            loginProcess(in, out, read);
+            menuAdmin(in, out, read);
+            //loginProcess(in, out, read);
             
             //Server functions
             /*while((resp = in.readLine()) != null){
@@ -156,6 +164,9 @@ public class Client {
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
         String option;//Menu option selected
+        JSONParser parser = new JSONParser();//JSON Parser
+        Departament departament = new Departament();
+        ArrayList<Departament> departamentListJSON = new ArrayList();
         boolean log = true;
         
         log = true;
@@ -180,8 +191,41 @@ public class Client {
                 {
                     case "1":
                         out.println("gestDepartament");
+                         
+                        try
+                        {
+                            logResponse = in.readLine();
+                            JSONObject obj = (JSONObject) parser.parse(logResponse);
+                            JSONArray array = (JSONArray) obj.get("departament");
+                            for (Object item : array) 
+                            {
+                                JSONObject object = (JSONObject) item;
+                                departament.setDep_id(Integer.parseInt(object.get("id").toString()));
+                                departament.setDep_nombre(object.get("nombre").toString());
+                                departamentListJSON.add(departament);
+                            }
+                            System.out.println("\nId\tNombre");
+                            for (int i = 0; i < departamentListJSON.size(); i++) 
+                            {
+                                System.out.println(departamentListJSON.get(i).getDep_id()+"\t"+departamentListJSON.get(i).getDep_nombre());
+                            }
+                            
+                        }
+                        catch(ParseException | IOException ex)
+                        {
+                            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                       
+                        
+                        for(Departament dep : departamentListJSON)
+                        {
+                            System.out.println(dep.getDep_id());
+                            System.out.println(dep.getDep_nombre());
+                        }
                         
                         break;
+
+
                     case "2":
                         out.println("gestEmploy");
                         
