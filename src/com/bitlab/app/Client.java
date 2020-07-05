@@ -192,7 +192,7 @@ public class Client {
                     case "1":
                         out.println("gestDepartament");
                          AppProcess.getDep(in, out,read);
-                         AppProcess.showDepartament();
+                         
                         
                         break;
 
@@ -207,7 +207,8 @@ public class Client {
                         break;
                     case "4":
                         out.println("gestRol");
-                        
+                        AppProcess.getUser(in, out, read);
+                        AppProcess.showUser();
                         break;
                     case "5":
                         if (exit(read)) 

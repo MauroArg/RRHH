@@ -29,6 +29,7 @@ import org.json.simple.parser.ParseException;
  */
 public class AppProcess {
     
+    //Entity classes
     Departament   departament = new Departament();
     Employe       employe = new Employe();
     Payroll       payroll = new Payroll();
@@ -36,7 +37,22 @@ public class AppProcess {
     Rol           rol = new Rol();
     User          user = new User();
     
+    //List with the data
     static ArrayList<Departament> departamentListJSON = new ArrayList();
+    static ArrayList<Employe> employeListJSON = new ArrayList();
+    static ArrayList<Payroll> payrollListJSON = new ArrayList();
+    static ArrayList<PayrollDetail> payrollDetailListJSON = new ArrayList();
+    static ArrayList<Rol> rolListJSON = new ArrayList();
+    static ArrayList<User> userListJSON = new ArrayList();
+    
+    //Comparing text variables
+    String nombre;
+    String apellido;
+    String direccion;
+    String correo;
+    String estado;
+    String longitud;
+    
     
     
     
@@ -75,13 +91,6 @@ public class AppProcess {
         JSONParser parser = new JSONParser();//JSON Parser
         Employe employe = new Employe();
         Departament departament = new Departament();
-        ArrayList<Employe> employeListJSON = new ArrayList();
-        String nombre;
-        String apellido;
-        String direccion;
-        String correo;
-        String estado;
-        String longitud;
         try
         {
             logResponse = in.readLine();
@@ -105,8 +114,61 @@ public class AppProcess {
                 employe.setDepartament(departament);
                 employeListJSON.add(employe);
             }
+        } 
+        catch (ParseException | IOException ex) 
+        {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void getUser(BufferedReader in, PrintWriter out, Scanner read)
+    {
+        String serverResponse = "";//Server petitions
+        String logResponse = "";// log result
+        JSONParser parser = new JSONParser();//JSON Parser
+        User user = new User();
+        Rol rol = new Rol();
+        
+        try 
+        {
+            logResponse = in.readLine();
+            JSONObject obj = (JSONObject) parser.parse(logResponse);
+            JSONArray array = (JSONArray) obj.get("users");
             
-            for (int i = 0; i < employeListJSON.size(); i++) 
+            for (Object item : array)
+            {
+                user = new User();
+                JSONObject object = (JSONObject) item;
+                user.setUs_id(Integer.parseInt(object.get("id").toString()));
+                user.setUs_usuario(object.get("username").toString());
+                user.setUs_contra(object.get("password").toString());
+                user.setUs_correo(object.get("correo").toString());
+                rol.setRol_id(Integer.parseInt(object.get("rol_id").toString()));
+                rol.setRol_nombre(object.get("rol_nombre").toString());
+                user.setRol(rol);
+                userListJSON.add(user);
+            }
+            
+        } 
+        catch (IOException | ParseException ex) 
+        {
+            Logger.getLogger(AppProcess.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void showDepartament()
+    {
+            System.out.println("\nId\tNombre");
+            for (int i = 0; i < departamentListJSON.size(); i++) 
+            {
+                System.out.println(departamentListJSON.get(i).getDep_id() + "\t" + departamentListJSON.get(i).getDep_nombre());
+            }
+    }
+    
+    public void showEmploy()
+    {
+        System.out.println("\nId\tNombres\tApellios\tDUI\tNIT\tTelefono\tSueldo\tDireccion\tEstado\tDepartamento");
+        for (int i = 0; i < employeListJSON.size(); i++) 
             {
                 longitud = employeListJSON.get(i).getEmp_nombres();
                 
@@ -158,7 +220,6 @@ public class AppProcess {
                     estado = "Inactivo";
                 }
                 
-                System.out.println("\nId\tNombres\tApellios\tDUI\tNIT\tTelefono\tSueldo\tDireccion\tEstado\tDepartamento");
                 
                 System.out.println(employeListJSON.get(i).getEmp_id()+ "\t" +
                         nombre + "\t" + apellido + "\t" + employeListJSON.get(i).getEmp_dui() + "\t" +
@@ -166,32 +227,17 @@ public class AppProcess {
                         "$ " +employeListJSON.get(i).getEmp_sueldo() + "\t" + direccion + "\t" + estado +
                         "\t" + employeListJSON.get(i).getDepartament().getDep_nombre());
             }
-
-        } 
-        catch (ParseException | IOException ex) 
+    }
+    
+    public static void showUser()
+    {
+        System.out.println("\nId\tNombre\tCorreo\tRol");
+        for(int i = 0; i < userListJSON.size(); i++)
         {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(userListJSON.get(i).getUs_id() + "\t" + userListJSON.get(i).getUs_usuario() + "\t" + 
+                    userListJSON.get(i).getUs_correo() + "\t" + userListJSON.get(i).getRol().getRol_nombre());
         }
     }
-    
-    public static void getUser(BufferedReader in, PrintWriter out, Scanner read)
-    {
-        String serverResponse = "";//Server petitions
-        String logResponse = "";// log result
-        JSONParser parser = new JSONParser();//JSON Parser
-        
-        
-    }
-    
-    public static void showDepartament()
-    {
-            System.out.println("\nId\tNombre");
-            for (int i = 0; i < departamentListJSON.size(); i++) 
-            {
-                System.out.println(departamentListJSON.get(i).getDep_id() + "\t" + departamentListJSON.get(i).getDep_nombre());
-            }
-    }
-    
     
     public static void updateDep(BufferedReader in, PrintWriter out, Scanner read)
     {
