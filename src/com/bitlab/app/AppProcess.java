@@ -39,7 +39,7 @@ public class AppProcess {
         {
             logResponse = in.readLine();
             JSONObject obj = (JSONObject) parser.parse(logResponse);
-            JSONArray array = (JSONArray) obj.get("departament");
+            JSONArray array = (JSONArray) obj.get("departaments");
             for (Object item : array) {
                 departament = new Departament();
                 JSONObject object = (JSONObject) item;
