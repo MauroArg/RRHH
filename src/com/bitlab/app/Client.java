@@ -164,6 +164,7 @@ public class Client {
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
         String option;//Menu option selected
+        String option2;//Menu option selected 2
         JSONParser parser = new JSONParser();//JSON Parser
         Departament departament = new Departament();
         ArrayList<Departament> departamentListJSON = new ArrayList();
@@ -192,8 +193,20 @@ public class Client {
                     case "1":
                         out.println("gestDepartament");
                          AppProcess.getDep(in, out,read);
-                         
-                        
+                         System.out.println("Eliga una opcion \n [1] Listar departamento \n[2] Agregar departamento\n [3]Modificar departamento");
+                         option2 = read.nextLine();
+                         switch (option2)
+                         {
+                             case "1":
+                                 AppProcess.showDepartament();
+                                 break;
+                             case "2":
+                                 AppProcess.createDep(in, out, read);
+                                 break;
+                             case "3":
+                                 AppProcess.updateDep(in, out, read);
+                                 break;
+                         }
                         break;
 
 
