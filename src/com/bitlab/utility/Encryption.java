@@ -21,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class Encryption {
     private static final String[] DATACRYPT = {"JDEV","DEV.JAVA"};
     
-    public String encrypt(String strToEncrypt) 
+    public static String encrypt(String strToEncrypt) 
     {
         try
         {

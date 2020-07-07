@@ -42,14 +42,13 @@ public class ProcessUser
             userListJSON.clear();
             logResponse = in.readLine();
             JSONObject obj = (JSONObject) parser.parse(logResponse);
-            JSONArray array = (JSONArray) obj.get("rols");
+            JSONArray array = (JSONArray) obj.get("users");
             for (Object item : array) 
             {
                 user = new User();
                 JSONObject object = (JSONObject) item;
                 user.setUs_id(Integer.parseInt(object.get("id").toString()));
                 user.setUs_usuario(object.get("username").toString());
-                user.setUs_contra(object.get("passwrod").toString());
                 user.setUs_correo(object.get("correo").toString());
                 rol.setRol_id(Integer.parseInt(object.get("rol_id").toString()));
                 rol.setRol_nombre(object.get("rol_nombre").toString());
@@ -65,7 +64,7 @@ public class ProcessUser
     public static void showUser()
     {
         //Create header of the table
-        System.out.println("\nNo\tUsuario\tCorreo\t\tRol");
+        System.out.println("\nNo\tUsuario\tCorreo\t\t\t\tRol");
         //Walk through the array
         for (int i = 0; i < userListJSON.size(); i++) 
         {
@@ -99,7 +98,7 @@ public class ProcessUser
         System.out.print("Ingrese el correo del usuario: ");
         user.setUs_correo(read.nextLine());
         System.out.print("Ingrese la contraseña del usuario: ");
-        user.setUs_contra(Encryption.decrypt(read.nextLine()));
+        user.setUs_contra(Encryption.encrypt(read.nextLine()));
         ProcessRol.showRol();
         System.out.print("Ingrese el numero del rol del usuario: ");
         option = read.nextLine();
@@ -272,7 +271,7 @@ public class ProcessUser
                         case "3":
                             log = false;
                             System.out.println("Ingrese la nueva contraseño");
-                            contra = Encryption.decrypt(read.nextLine());
+                            contra = Encryption.encrypt(read.nextLine());
                             break;
                         case "4":
                             log = false;
