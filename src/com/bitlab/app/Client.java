@@ -177,6 +177,7 @@ public class Client {
                          out.println("gestDepartament");
                          ProcessDepartament.getDep(in, out,read);
                          System.out.println("Eliga una opcion \n[1] Listar departamento \n[2] Agregar departamento\n[3]Modificar departamento\n[4] Salir");
+                         System.out.print("Ingrese su seleccion: ");
                          option2 = read.nextLine();
                          switch (option2)
                          {
@@ -349,7 +350,7 @@ public class Client {
                                     break;
                                 case "3":
                                     out.println("update");
-                                    
+                                    ProcessEmploye.updateEmploy(in, out, read);
                                     break;
                                 case "4":
                                     out.println("disable");

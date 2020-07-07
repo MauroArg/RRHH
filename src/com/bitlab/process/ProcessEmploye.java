@@ -42,7 +42,7 @@ public class ProcessEmploye {
             employeListJSON.clear();
             logResponse = in.readLine();
             JSONObject obj = (JSONObject) parser.parse(logResponse);
-            JSONArray array = (JSONArray) obj.get("departaments");
+            JSONArray array = (JSONArray) obj.get("employes");
             for (Object item : array) 
             {
                 employe = new Employe();
@@ -54,6 +54,7 @@ public class ProcessEmploye {
                 employe.setEmp_correo(object.get("correo").toString());
                 employe.setEmp_dui(object.get("dui").toString());
                 employe.setEmp_telefono(object.get("telefono").toString());
+                employe.setEmp_direccion(object.get("direccion").toString());
                 employe.setEmp_nit(object.get("nit").toString());
                 employe.setEmp_estado(Byte.parseByte(object.get("estado").toString()));
                 employe.setEmp_jef_id(Integer.parseInt(object.get("jefe_id").toString()));
@@ -75,7 +76,7 @@ public class ProcessEmploye {
         System.out.println("\nNo\tCodigo\tNombres\t\tApellidos\t\tCorreo\t\tDireccion\t\tTelefono\t\tDUI\t\tNIT\t\tSueldo\t\tJefe\t\tDepartamento");
         for (int i = 0; i < employeListJSON.size(); i++) 
         {
-            System.out.println(i + 1 + "\t" + employeListJSON.get(i).getEmp_nombres()+ "\t" + employeListJSON.get(i).getEmp_apellidos()
+            System.out.println(i + 1 + "\t" + employeListJSON.get(i).getEmp_codigo() + "\t" + employeListJSON.get(i).getEmp_nombres()+ "\t" + employeListJSON.get(i).getEmp_apellidos()
             + "\t" + employeListJSON.get(i).getEmp_correo() + "\t" + employeListJSON.get(i).getEmp_direccion() + "\t" + employeListJSON.get(i).getEmp_telefono() +
                     "\t" + employeListJSON.get(i).getEmp_dui() + "\t" + employeListJSON.get(i).getEmp_nit() + "\t" + "$ " + employeListJSON.get(i).getEmp_sueldo() + 
                     "\t" + employeListJSON.get(i).getEmp_jef_nombre() + "\t" + employeListJSON.get(i).getDepartament().getDep_nombre() + "\n");
@@ -135,12 +136,12 @@ public class ProcessEmploye {
         System.out.print("Ingrese el sueldo del empleado: $");
         employe.setEmp_sueldo(Double.parseDouble(read.nextLine()));
         showEmployAvailable();
-        System.out.println("Ingrese el numero del jefe del empleado: ");
+        System.out.print("Ingrese el numero del jefe del empleado: ");
         option = read.nextLine();
         int index = Integer.parseInt(option);
         employe.setEmp_jef_id(employeListJSON.get(index -1).getEmp_id());
-        
         ProcessDepartament.showDepartament();
+        System.out.print("Ingrese el numero de departamento del empleado: ");
         option = read.nextLine();
         int index2 = Integer.parseInt(option);
         departament = new Departament();
@@ -156,11 +157,13 @@ public class ProcessEmploye {
         json.put("codigo", employe.getEmp_codigo());
         json.put("correo", employe.getEmp_correo());
         json.put("telefono",employe.getEmp_telefono());
+        json.put("direccion",employe.getEmp_direccion());
         json.put("dui", employe.getEmp_dui());
         json.put("nit", employe.getEmp_nit());
         json.put("sueldo", employe.getEmp_sueldo());
         json.put("jefe_id", employe.getEmp_jef_id());
         json.put("dep_id", employe.getDepartament().getDep_id());
+        json.put("estado", "0");
         
         //Send the json
         detailsJson.put("employe", json);
@@ -196,6 +199,7 @@ public class ProcessEmploye {
         String change = "";
         String campo  = "";
         String option = "";
+        String option2 = "";
         
         //Needed variables to JSON
         ArrayList<Employe> list = new ArrayList();
@@ -310,6 +314,7 @@ public class ProcessEmploye {
                             int index2 = Integer.parseInt(option);
                             departament = new Departament();
                             departament.setDep_id(ProcessDepartament.departamentListJSON.get(index2-1).getDep_id());
+                            employe.setDepartament(departament);
                             break;
                         default:
                             System.out.println("Por favor ingrese un valor valido");
@@ -338,11 +343,11 @@ public class ProcessEmploye {
                 json.put("apellidos", employe.getEmp_apellidos());
                 json.put("codigo", employe.getEmp_codigo());
                 json.put("dui", employe.getEmp_dui());
-                json.put("dui", employe.getEmp_dui());
+                json.put("correo",employe.getEmp_correo());
                 json.put("nit", employe.getEmp_nit());
                 json.put("telefono", employe.getEmp_telefono());
+                json.put("estado", "0");
                 json.put("direccion", employe.getEmp_direccion());
-                json.put("telefono", employe.getEmp_telefono());
                 json.put("dep_id", employe.getDepartament().getDep_id());
                 json.put("jefe_id", employe.getEmp_jef_id());
                 json.put("sueldo", employe.getEmp_sueldo());
