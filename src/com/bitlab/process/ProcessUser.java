@@ -106,7 +106,7 @@ public class ProcessUser
         int index = Integer.parseInt(option);
         
         rol = new Rol();
-        rol.setRol_id(ProcessRol.rolListJSON.get(index).getRol_id());
+        rol.setRol_id(ProcessRol.rolListJSON.get(index -1).getRol_id());
         user.setRol(rol);
         
         
@@ -308,6 +308,14 @@ public class ProcessUser
                 //Send json with the data
                 detailsJson.put("user", json);
                 out.println(detailsJson);
+                try 
+                {
+                    System.out.println(in.readLine());
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             else
             {
