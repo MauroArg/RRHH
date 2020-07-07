@@ -56,33 +56,7 @@ public class AppProcess {
     
     
     
-    public static void getDep(BufferedReader in, PrintWriter out, Scanner read)
-    {
-        String serverResponse = "";//Server petitions
-        String logResponse = "";// log result
-        JSONParser parser = new JSONParser();//JSON Parser
-        Departament departament = new Departament();
-        
-        try
-        {
-            logResponse = in.readLine();
-            JSONObject obj = (JSONObject) parser.parse(logResponse);
-            JSONArray array = (JSONArray) obj.get("departaments");
-            for (Object item : array) 
-            {
-                departament = new Departament();
-                JSONObject object = (JSONObject) item;
-                departament.setDep_id(Integer.parseInt(object.get("id").toString()));
-                departament.setDep_nombre(object.get("nombre").toString());
-                departamentListJSON.add(departament);
-            }
-
-        } 
-        catch (ParseException | IOException ex) 
-        {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
     
     public static void getEmploye(BufferedReader in, PrintWriter out, Scanner read)
     {
@@ -93,6 +67,7 @@ public class AppProcess {
         Departament departament = new Departament();
         try
         {
+            employeListJSON.clear();
             logResponse = in.readLine();
             JSONObject obj = (JSONObject) parser.parse(logResponse);
             JSONArray array = (JSONArray) obj.get("departaments");
@@ -132,6 +107,7 @@ public class AppProcess {
         
         try 
         {
+            userListJSON.clear();
             logResponse = in.readLine();
             JSONObject obj = (JSONObject) parser.parse(logResponse);
             JSONArray array = (JSONArray) obj.get("users");
@@ -158,14 +134,7 @@ public class AppProcess {
         }
     }
     
-    public static void showDepartament()
-    {
-            System.out.println("\nNo\tNombre");
-            for (int i = 0; i < departamentListJSON.size(); i++) 
-            {
-                System.out.println(i+1 + "\t" + departamentListJSON.get(i).getDep_nombre());
-            }
-    }
+    
     
     public void showEmploy()
     {
@@ -241,87 +210,7 @@ public class AppProcess {
         }
     }
     
-    public static void createDep(BufferedReader in, PrintWriter out, Scanner read)
-    {
-        String response = "";
-        String data = "";
-        
-        boolean log = true;
-        
-        System.out.println("Ingrese el nombre del departamento: ");
-        out.println(read.nextLine());
-        
-        while(log)
-        {
-            try 
-            {
-                response = in.readLine();
-
-                if (response.equals("existoso")) 
-                {
-                    log = false;
-                    getDep(in, out, read);
-                    System.out.println(response);
-                }
-                else
-                {
-                    System.out.println(response);
-                }
-            } 
-            catch (IOException ex) 
-            {
-                Logger.getLogger(AppProcess.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public static void updateDep(BufferedReader in, PrintWriter out, Scanner read)
-    {
-        ArrayList<Departament> list = new ArrayList();
-        JSONObject data = new JSONObject();
-        JSONObject dep = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        
-        
-        
-        showDepartament();
-        System.out.println("¿Que departamanto quiere modificar?");
-        depto = read.nextLine();
-        int id;
-        String nombre;
-        if (isNumeric(depto)) 
-        {
-            for(int i = 0; i < departamentListJSON.size(); i++)
-            {
-                if (i == Integer.parseInt(depto)) 
-                {
-                    id = departamentListJSON.get(i).getDep_id();
-                    System.out.println("Ingrese el nuevo nombre: ");
-                    nombre = read.nextLine();
-                    
-                    dep.put("id", id);
-                    dep.put("nombre", nombre);
-                    data.put("departament", dep);
-                    out.println(data.toJSONString());
-                }
-            }
-        }
-        
-        try 
-        {
-            if (in.readLine().equals("exitoso"))
-            {
-                getDep(in, out, read);
-                showDepartament();
-            }
-        } 
-        catch (IOException ex) 
-        {
-            Logger.getLogger(AppProcess.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-    }
+   
     
     private static boolean isNumeric(String string)
     {

@@ -20,11 +20,12 @@ public class Employe
     private byte emp_estado;
     private Departament departament;
     private int emp_jef_id;
+    private String emp_jef_nombre;
 
     public Employe() {
     }
 
-    public Employe(int emp_id, String emp_codigo, String emp_nombres, String emp_apellidos, String emp_dui, String emp_nit, String emp_correo, String emp_telefono, double emp_sueldo, String emp_direccion, byte emp_estado, Departament departament, int emp_jef_id) {
+    public Employe(int emp_id, String emp_codigo, String emp_nombres, String emp_apellidos, String emp_dui, String emp_nit, String emp_correo, String emp_telefono, double emp_sueldo, String emp_direccion, byte emp_estado, Departament departament, int emp_jef_id, String emp_jef_nombre) {
         this.emp_id = emp_id;
         this.emp_codigo = emp_codigo;
         this.emp_nombres = emp_nombres;
@@ -38,6 +39,7 @@ public class Employe
         this.emp_estado = emp_estado;
         this.departament = departament;
         this.emp_jef_id = emp_jef_id;
+        this.emp_jef_nombre = emp_jef_nombre;
     }
 
     public int getEmp_id() {
@@ -143,6 +145,16 @@ public class Employe
     public void setEmp_jef_id(int emp_jef_id) {
         this.emp_jef_id = emp_jef_id;
     }
+
+    public String getEmp_jef_nombre() {
+        return emp_jef_nombre;
+    }
+
+    public void setEmp_jef_nombre(String emp_jef_nombre) {
+        this.emp_jef_nombre = emp_jef_nombre;
+    }
+
+    
     
     
 }

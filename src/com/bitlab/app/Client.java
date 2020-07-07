@@ -1,4 +1,5 @@
 package com.bitlab.app;
+import com.bitlab.process.ProcessDepartament;
 import com.bitlab.entity.Departament;
 import com.bitlab.entity.User;
 import com.bitlab.utility.Encryption;
@@ -192,22 +193,22 @@ public class Client {
                 {
                     case "1":
                         out.println("gestDepartament");
-                         AppProcess.getDep(in, out,read);
+                         ProcessDepartament.getDep(in, out,read);
                          System.out.println("Eliga una opcion \n [1] Listar departamento \n[2] Agregar departamento\n [3]Modificar departamento");
                          option2 = read.nextLine();
                          switch (option2)
                          {
                              case "1":
                                  out.println("list");
-                                 AppProcess.showDepartament();
+                                 ProcessDepartament.showDepartament();
                                  break;
                              case "2":
                                  out.println("create");
-                                 AppProcess.createDep(in, out, read);
+                                 ProcessDepartament.createDep(in, out, read);
                                  break;
                              case "3":
                                  out.println("update");
-                                 AppProcess.updateDep(in, out, read);
+                                 ProcessDepartament.updateDep(in, out, read);
                                  break;
                          }
                         break;
