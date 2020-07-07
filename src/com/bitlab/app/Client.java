@@ -213,6 +213,7 @@ public class Client {
                         {
                             out.println("gestUser");
                             ProcessUser.getUser(in, out, read);
+                            ProcessRol.getRol(in, out, read);
                             System.out.println("Eliga una opcion: \n[1] Listar usuarios \n[2] Agregar usuario \n[3] Modificar usuario \n[4] Eliminar usuario \n[5] Salir");
                             option2 = read.nextLine();
                             switch(option2)

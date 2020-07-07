@@ -116,18 +116,14 @@ public class ProcessUser
         list.add(user);
         
         //Add data of the list to a json
-        for(User us: list)
-        {
-            JSONObject json = new JSONObject();
-            json.put("username", us.getUs_usuario());
-            json.put("password", us.getUs_contra());
-            json.put("correo", us.getUs_correo());
-            json.put("rol", us.getRol().getRol_id());
-            jsonArray.add(json);
-        }
+        JSONObject json = new JSONObject();
+        json.put("username", user.getUs_usuario());
+        json.put("password", user.getUs_contra());
+        json.put("correo", user.getUs_correo());
+        json.put("rol_id", user.getRol().getRol_id());
         
         //Send the json
-        detailsJson.put("user", jsonArray);
+        detailsJson.put("user", json);
         out.println(detailsJson);
     }
     
@@ -301,18 +297,13 @@ public class ProcessUser
                 user.setRol(rol);
                 
                 //Add data to a json
-                list.add(user);
-                for(User us: list)
-                {
-                    JSONObject json = new JSONObject();
-                    json.put("username", us.getUs_usuario());
-                    json.put("password", us.getUs_contra());
-                    json.put("correo", us.getUs_correo());
-                    json.put("rol", us.getRol().getRol_id());
-                    jsonArray.add(json);
-                }
+                JSONObject json = new JSONObject();
+                json.put("username", user.getUs_usuario());
+                json.put("password", user.getUs_contra());
+                json.put("correo", user.getUs_correo());
+                json.put("rol_id", user.getRol().getRol_id());
                 //Send json with the data
-                detailsJson.put("user", jsonArray);
+                detailsJson.put("user", json);
                 out.println(detailsJson);
             }
             else
