@@ -45,6 +45,7 @@ public class ProcessUser
             JSONArray array = (JSONArray) obj.get("users");
             for (Object item : array) 
             {
+                rol = new Rol();
                 user = new User();
                 JSONObject object = (JSONObject) item;
                 user.setUs_id(Integer.parseInt(object.get("id").toString()));
@@ -102,18 +103,12 @@ public class ProcessUser
         ProcessRol.showRol();
         System.out.print("Ingrese el numero del rol del usuario: ");
         option = read.nextLine();
-        for(int i = 0; i < ProcessRol.rolListJSON.size(); i++)
-        {
-            if (Integer.parseInt(option) == ProcessRol.rolListJSON.get(i).getRol_id()) 
-            {
-                rol.setRol_id(ProcessRol.rolListJSON.get(i).getRol_id());
-                rol.setRol_nombre(ProcessRol.rolListJSON.get(i).getRol_nombre());
-                user.setRol(rol);
-            }
-        }
+        int index = Integer.parseInt(option);
         
-        //Add data to a list
-        list.add(user);
+        rol = new Rol();
+        rol.setRol_id(ProcessRol.rolListJSON.get(index).getRol_id());
+        user.setRol(rol);
+        
         
         //Add data of the list to a json
         JSONObject json = new JSONObject();
@@ -124,7 +119,15 @@ public class ProcessUser
         
         //Send the json
         detailsJson.put("user", json);
-        out.println(detailsJson);
+        out.println(detailsJson);   
+        try 
+        {
+            System.out.println(in.readLine());
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     //Delete a specified JSON
