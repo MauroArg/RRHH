@@ -170,11 +170,11 @@ public class Client {
                 switch(option)
                 {
                     case "1":
-                        out.println("gestDepartament");
                         log2 = true;
-                        ProcessDepartament.getDep(in, out,read);
                         while(log2)
                         {
+                         out.println("gestDepartament");
+                         ProcessDepartament.getDep(in, out,read);
                          System.out.println("Eliga una opcion \n[1] Listar departamento \n[2] Agregar departamento\n[3]Modificar departamento\n[4] Salir");
                          option2 = read.nextLine();
                          switch (option2)
@@ -208,11 +208,11 @@ public class Client {
                         out.println("gestEmploy");
                         break;
                     case "3":
-                        out.println("gestUser");
                         log2 = true;
-                        ProcessUser.getUser(in, out, read);
                         while(log2)
                         {
+                            out.println("gestUser");
+                            ProcessUser.getUser(in, out, read);
                             System.out.println("Eliga una opcion: \n[1] Listar usuarios \n[2] Agregar usuario \n[3] Modificar usuario \n[4] Eliminar usuario \n[5] Salir");
                             option2 = read.nextLine();
                             switch(option2)
@@ -247,11 +247,11 @@ public class Client {
                         }
                         break;
                     case "4":
-                        out.println("gestRol");
                         log2 = true;
-                        ProcessRol.getRol(in, out, read);
-                        while(log)
+                        while(log2)
                         {
+                            out.println("gestRol");
+                            ProcessRol.getRol(in, out, read);
                             System.out.println("Eliga una opcion: \n[1] Listar Roles \n[2] Agregar Rol \n[3] Modificar Rol \n[4] Salir");
                             option2 = read.nextLine();
                             switch(option2)
