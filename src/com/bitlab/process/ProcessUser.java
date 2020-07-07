@@ -72,7 +72,7 @@ public class ProcessUser
         {
             //Print the user in position i
             System.out.println(i + 1 + "\t" + userListJSON.get(i).getUs_usuario() + "\t" + userListJSON.get(i).getUs_correo()
-            + "\t" + userListJSON.get(i).getRol().getRol_nombre() + "\n");
+            + "\t" + userListJSON.get(i).getRol().getRol_nombre());
         }
     }
     
@@ -278,9 +278,7 @@ public class ProcessUser
                             ProcessRol.showRol();
                             System.out.print("Ingrese el numero del nuevo rol: ");
                             option = read.nextLine();
-                            option = read.nextLine();
                             int index = Integer.parseInt(option);
-
                             rol = new Rol();
                             rol.setRol_id(ProcessRol.rolListJSON.get(index -1).getRol_id());
                             user.setRol(rol);
@@ -294,9 +292,7 @@ public class ProcessUser
                 user.setUs_correo(correo);
                 user.setUs_contra(contra);
                 user.setUs_usuario(nombre);
-                rol.setRol_id(rolId);
-                rol.setRol_nombre(rolNombre);
-                user.setRol(rol);
+               
                 
                 //Add data to a json
                 JSONObject json = new JSONObject();

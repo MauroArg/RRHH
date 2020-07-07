@@ -175,6 +175,205 @@ public class ProcessEmploye {
         }
     }
     
+    public static void updateEmploy(BufferedReader in, PrintWriter out, Scanner read)
+    {
+        int id = 0;
+        String nombres = "";
+        String apellidos = "";
+        String direccion = "";
+        String dui = "";
+        String nit = "";
+        Double sueldo = 0.0;
+        String codigo = "";
+        String correo = "";
+        String telefono = "";
+        byte estado = 0;
+        int depId = 0;
+        int jefeId = 0;
+        
+        
+        String empl = "";
+        String change = "";
+        String campo  = "";
+        String option = "";
+        
+        //Needed variables to JSON
+        ArrayList<Employe> list = new ArrayList();
+        JSONObject detailsJson = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        
+        //Instance of Objects
+        Employe jefe = new Employe();
+        Employe employe = new Employe();
+        Departament departament = new Departament();
+        
+        //Show all users
+        showEmploy();
+        
+        //Request the user to update
+        System.out.print("Ingrese el empleado que desea Modificar ");
+        empl = read.nextLine();
+        boolean log = true;
+        boolean flag = true;
+        while(flag)
+        {
+            if (isNumeric(empl)) 
+            {
+                flag = false;
+                for (int i = 0; i < employeListJSON.size(); i++) 
+                {
+                    if (i == Integer.parseInt(empl) - 1) 
+                    {
+                        id = employeListJSON.get(i).getEmp_id();
+                        nombres = employeListJSON.get(i).getEmp_nombres();
+                        apellidos = employeListJSON.get(i).getEmp_apellidos();
+                        codigo = employeListJSON.get(i).getEmp_codigo();
+                        dui = employeListJSON.get(i).getEmp_dui();
+                        nit = employeListJSON.get(i).getEmp_nit();
+                        direccion = employeListJSON.get(i).getEmp_direccion();
+                        correo = employeListJSON.get(i).getEmp_correo();
+                        sueldo = employeListJSON.get(i).getEmp_sueldo();
+                        estado = employeListJSON.get(i).getEmp_estado();
+                        jefeId = employeListJSON.get(i).getEmp_jef_id();
+                        telefono = employeListJSON.get(i).getEmp_telefono();
+                        depId = employeListJSON.get(i).getDepartament().getDep_id();
+                    }
+                }
+
+                while (log) 
+                {
+                    System.out.println("Que desea editar del empleado " + nombres);
+                    System.out.println("[1] Nombre del empleado\n[2] Apellido del empleado\n[3] Codigo del empleado\n[4] DUI del empleado\n[5] NIT del empleado\n[6] Direccion del empleado" + 
+                            "\n[7] Correo del empleado\n[8] Sueldo del empleado\n[9] Jefe del empleado\n[10] Telefono del empleado\n[11] Departamento del empleado");
+                    System.out.print("Ingrese un valor: ");
+                    campo = read.nextLine();
+                    switch(campo)
+                    {
+                        case "1":
+                            log = false;
+                            System.out.print("Ingrese el nuevo nombre del empleado: ");
+                            nombres = read.nextLine();
+                            break;
+                        case "2":
+                            log = false;
+                            System.out.print("Ingrese el nuevo apellido del empleado: ");
+                            apellidos = read.nextLine();
+                            break;
+                        case "3":
+                            log = false;
+                            System.out.print("Ingrese el nuevo codigo del empleado: ");
+                            codigo = read.nextLine();
+                            break;
+                        case "4":
+                            log = false;
+                            System.out.print("Ingrese el DUI del empleado: ");
+                            dui = read.nextLine();
+                            break;
+                        case "5":
+                            log = false;
+                            System.out.print("Ingree el nuevo NIT del empleado: ");
+                            nit = read.nextLine();
+                            break;
+                        case "6":
+                            log = false;
+                            System.out.print("Ingrese la nueva direccion del empleado: ");
+                            direccion = read.nextLine();
+                            break;
+                        case "7":
+                            log = false;
+                            System.out.print("Ingrese el nuevo correo del empleado: ");
+                            direccion = read.nextLine();
+                            break;
+                        case "8":
+                            log = false;
+                            System.out.print("Ingrese el nuevo sueldo del empleado: ");
+                            sueldo = Double.parseDouble(read.nextLine());
+                            break;
+                        case "9":
+                            log = false;
+                            showEmployAvailable();
+                            System.out.print("Ingrese el numero del nuevo jefe del empleado: ");
+                            option = read.nextLine();
+                            int index = Integer.parseInt(option);
+                            employe.setEmp_jef_id(employeListJSON.get(index-1).getEmp_id());
+                            break;
+                        case "10":
+                            log = false;
+                            System.out.print("Ingrese el nuevo telefono del empleadoo: ");
+                            telefono = read.nextLine();
+                            break;
+                        case "11":
+                            log = false;
+                            ProcessDepartament.showDepartament();
+                            System.out.print("Ingrese el numero del nuevo departamento del empleado: ");
+                            option = read.nextLine();
+                            int index2 = Integer.parseInt(option);
+                            departament = new Departament();
+                            departament.setDep_id(ProcessDepartament.departamentListJSON.get(index2-1).getDep_id());
+                            break;
+                        default:
+                            System.out.println("Por favor ingrese un valor valido");
+                            break;
+                    }
+                }
+                employe.setEmp_id(id);
+                employe.setEmp_nombres(nombres);
+                employe.setEmp_apellidos(apellidos);
+                employe.setEmp_direccion(direccion);
+                employe.setEmp_correo(correo);
+                employe.setEmp_codigo(codigo);
+                employe.setEmp_dui(dui);
+                employe.setEmp_nit(nit);
+                employe.setEmp_estado(estado);
+                employe.setDepartament(departament);
+                employe.setEmp_telefono(telefono);
+                employe.setEmp_sueldo(sueldo);
+                employe.setEmp_jef_id(jefeId);
+                
+                
+                //Add data to a json
+                JSONObject json = new JSONObject();
+                json.put("id", employe.getEmp_id());
+                json.put("nombres", employe.getEmp_nombres());
+                json.put("apellidos", employe.getEmp_apellidos());
+                json.put("codigo", employe.getEmp_codigo());
+                json.put("dui", employe.getEmp_dui());
+                json.put("dui", employe.getEmp_dui());
+                json.put("nit", employe.getEmp_nit());
+                json.put("telefono", employe.getEmp_telefono());
+                json.put("direccion", employe.getEmp_direccion());
+                json.put("telefono", employe.getEmp_telefono());
+                json.put("dep_id", employe.getDepartament().getDep_id());
+                json.put("jefe_id", employe.getEmp_jef_id());
+                json.put("sueldo", employe.getEmp_sueldo());
+                
+                //Send json with the data
+                detailsJson.put("employe", json);
+                out.println(detailsJson);
+                try 
+                {
+                    System.out.println(in.readLine());
+                } 
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else
+            {
+                System.out.println("Por favor ingrese un valor numerico");
+                try 
+                {
+                    Thread.sleep(1000);
+                } 
+                catch (InterruptedException ex) 
+                {
+                    Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
     public static void deleteEmploy(BufferedReader in, PrintWriter out, Scanner read)
     {
         String very;
