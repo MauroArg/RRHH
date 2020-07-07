@@ -29,7 +29,7 @@ public class ProcessEmploye {
     static ArrayList<Employe> employeListJSON = new ArrayList();    
     
     //Obtain departament from socket
-    public static void getDep(BufferedReader in, PrintWriter out, Scanner read)
+    public static void getEmploye(BufferedReader in, PrintWriter out, Scanner read)
     {
             String serverResponse = "";//Server petitions
             String logResponse = "";// log result
@@ -82,19 +82,166 @@ public class ProcessEmploye {
         }
     }
     
+    public static void showEmployAvailable()
+    {
+        System.out.println("\nNo\tCodigo\tNombres\t\tApellidos\t\tCorreo\t\tDireccion\t\tTelefono\t\tDUI\t\tNIT\t\tSueldo\t\tJefe\t\tDepartamento");
+        for (int i = 0; i < employeListJSON.size(); i++) 
+        {
+            if (employeListJSON.get(i).getEmp_estado() == 0) 
+            {
+                System.out.println(i + 1 + "\t" + employeListJSON.get(i).getEmp_nombres()+ "\t" + employeListJSON.get(i).getEmp_apellidos()
+                    + "\t" + employeListJSON.get(i).getEmp_correo() + "\t" + employeListJSON.get(i).getEmp_direccion() + "\t" + employeListJSON.get(i).getEmp_telefono() +
+                        "\t" + employeListJSON.get(i).getEmp_dui() + "\t" + employeListJSON.get(i).getEmp_nit() + "\t" + "$ " + employeListJSON.get(i).getEmp_sueldo() + 
+                        "\t" + employeListJSON.get(i).getEmp_jef_nombre() + "\t" + employeListJSON.get(i).getDepartament().getDep_nombre() + "\n");
+            }
+        }
+    }
+    
     public static void createEmploy(BufferedReader in, PrintWriter out, Scanner read)
     {
+        //Needed variables
+        String response = "";
+        String option;
         
+        //List of users tyoe
+        ArrayList<Employe> list = new ArrayList();
+        
+        //Instance objects
+        Employe employe = new Employe();
+        Employe boss = new Employe();
+        Departament departament = new Departament();
+        
+        //Variables to create the JSON
+        JSONObject detailsJson = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        
+        //Request all data to add Employe
+        System.out.print("Ingrese el nombre del empleado: ");
+        employe.setEmp_nombres(read.nextLine());
+        System.out.print("Ingrese el apellido del empleado: ");
+        employe.setEmp_apellidos(read.nextLine());
+        System.out.print("Ingrese el codigo del empleado: ");
+        employe.setEmp_codigo(read.nextLine());
+        System.out.print("Ingrese el correo del empleado: ");
+        employe.setEmp_correo(read.nextLine());
+        System.out.print("Ingrese la direccion del empleado: ");
+        employe.setEmp_direccion(read.nextLine());
+        System.out.print("Ingrese el telefono del empleado: ");
+        employe.setEmp_telefono(read.nextLine());
+        System.out.print("Ingrese el DUI el empleado: ");
+        employe.setEmp_dui(read.nextLine());
+        System.out.print("Ingrese el NIT del empleado: ");
+        employe.setEmp_nit(read.nextLine());
+        System.out.print("Ingrese el sueldo del empleado: $");
+        employe.setEmp_sueldo(Double.parseDouble(read.nextLine()));
+        showEmployAvailable();
+        System.out.println("Ingrese el numero del jefe del empleado: ");
+        option = read.nextLine();
+        int index = Integer.parseInt(option);
+        employe.setEmp_jef_id(employeListJSON.get(index -1).getEmp_id());
+        
+        ProcessDepartament.showDepartament();
+        option = read.nextLine();
+        int index2 = Integer.parseInt(option);
+        departament = new Departament();
+        departament.setDep_id(ProcessDepartament.departamentListJSON.get(index -1).getDep_id());
+        employe.setDepartament(departament);
+        
+        
+        
+        //Add data of the list to a json
+        JSONObject json = new JSONObject();
+        json.put("nombres", employe.getEmp_nombres());
+        json.put("apellidos", employe.getEmp_apellidos());
+        json.put("codigo", employe.getEmp_codigo());
+        json.put("correo", employe.getEmp_correo());
+        json.put("telefono",employe.getEmp_telefono());
+        json.put("dui", employe.getEmp_dui());
+        json.put("nit", employe.getEmp_nit());
+        json.put("sueldo", employe.getEmp_sueldo());
+        json.put("jefe_id", employe.getEmp_jef_id());
+        json.put("dep_id", employe.getDepartament().getDep_id());
+        
+        //Send the json
+        detailsJson.put("employe", json);
+        out.println(detailsJson);   
+        try 
+        {
+            System.out.println(in.readLine());
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void deleteEmploy(BufferedReader in, PrintWriter out, Scanner read)
     {
         String very;
         String empl;
+        int id = 0;
         showEmploy();
         boolean log = true;
-        System.out.println("Ingrese el numero del empleado que desea desactivar");
-        empl = read.nextLine();
+        boolean flag = true;
         
+        while(flag)
+        {
+            System.out.println("Ingrese el numero del empleado que desea desactivar");
+            empl = read.nextLine();
+
+            if (isNumeric(empl)) {
+                flag = false;
+                try {
+                    for (int i = 0; i < employeListJSON.size(); i++) {
+                        if (i == Integer.parseInt(empl) - 1) {
+                            id = employeListJSON.get(i).getEmp_id();
+                            System.out.print("¿Esta seguro que desea desactivar este empleado: " + employeListJSON.get(i).getEmp_nombres() + " " + employeListJSON.get(i).getEmp_apellidos()+  "?"
+                                    + "\n [1]Si, borrar \n[2]No,cancelar");
+                        }
+                    }
+                    very = read.nextLine();
+
+                    while (log) {
+                        switch (very) {
+                            case "1":
+                                log = false;
+                                out.println(id);
+                                System.out.println(in.readLine());
+                                break;
+                            case "2":
+                                log = false;
+                                out.println("cancel");
+                                break;
+                            default:
+                                System.out.println("Por favor ingrese un valor valido");
+                                break;
+                        }
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                System.out.println("Por favor ingrese un valor numerico");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
+    //Verify if the input is a number
+    private static boolean isNumeric(String string)
+    {
+	try 
+        {
+		Integer.parseInt(string);
+		return true;
+	} 
+        catch (NumberFormatException nfe)
+        {
+		return false;
+	}
     }
 }

@@ -2,6 +2,7 @@ package com.bitlab.app;
 import com.bitlab.process.ProcessDepartament;
 import com.bitlab.entity.Departament;
 import com.bitlab.entity.User;
+import com.bitlab.process.ProcessEmploye;
 import com.bitlab.process.ProcessRol;
 import com.bitlab.process.ProcessUser;
 import com.bitlab.utility.Encryption;
@@ -205,7 +206,6 @@ public class Client {
                         }
                         break;
                     case "2":
-                        out.println("gestEmploy");
                         break;
                     case "3":
                         log2 = true;
@@ -306,18 +306,19 @@ public class Client {
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
         String option;//Menu option selected
+        String option2;//Menu option selected
         boolean log = true;
+        boolean log2 = true;
         
         while(log)
         {
             //RRHH menu
             StringBuilder menu = new StringBuilder();
             menu.append("Bienvenido. ¿Qué desea ver/realizar?\n");
-            menu.append("[1] Actualizar datos de empleados.\n");
-            menu.append("[2] Contratar empleado.\n");
-            menu.append("[3] Ver pagos generados.\n");
-            menu.append("[4] Generar pagos en planilla.\n");
-            menu.append("[5] Salir.\n");
+            menu.append("[1] Gestionar empleados.\n");
+            menu.append("[2] Ver pagos generados.\n");
+            menu.append("[3] Generar pagos en planilla.\n");
+            menu.append("[4] Salir.\n");
             menu.append("Por favor escoga una respuesta: ");
             System.out.println(menu);
             
@@ -328,22 +329,46 @@ public class Client {
                 switch(option)
                 {
                     case "1":
-                        out.println("updateEmploy");
-                        
+                        log2 = true;
+                        while(log)
+                        {
+                            out.println("gestEmploye");
+                            ProcessEmploye.getEmploye(in, out, read);
+                            ProcessDepartament.getDep(in, out, read);
+                            System.out.println("Elige una opcion: \n[1] Listar empleados\n[2] Agregar empleado\n[3] Modificar empleado \n[4] Desactiva empleado por despido \n[5] Salir");
+                            option2 = read.nextLine();
+                            switch(option2)
+                            {
+                                case "1":
+                                    out.println("list");
+                                    ProcessEmploye.showEmploy();
+                                    break;
+                                case "2":
+                                    out.println("create");
+                                    ProcessEmploye.createEmploy(in, out, read);
+                                    break;
+                                case "3":
+                                    out.println("update");
+                                    
+                                    break;
+                                case "4":
+                                    out.println("disable");
+                                    ProcessEmploye.deleteEmploy(in, out, read);
+                                    break;
+                                case "5":
+                                    break;
+                            }
+                        }
                         break;
                     case "2":
-                        out.println("createEmploy");
-                        
-                        break;
-                    case "3":
                         out.println("viewPayroll");
                         
                         break;
-                    case "4":
+                    case "3":
                         out.println("createPayroll");
                         
                         break;
-                    case "5":
+                    case "4":
                         if (exit(read)) 
                         {
                             log = false;
