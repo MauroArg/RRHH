@@ -51,6 +51,7 @@ public class ProcessUser
                 user.setUs_id(Integer.parseInt(object.get("id").toString()));
                 user.setUs_usuario(object.get("username").toString());
                 user.setUs_correo(object.get("correo").toString());
+                user.setUs_contra(object.get("password").toString());
                 rol.setRol_id(Integer.parseInt(object.get("rol_id").toString()));
                 rol.setRol_nombre(object.get("rol_nombre").toString());
                 user.setRol(rol);
@@ -277,14 +278,12 @@ public class ProcessUser
                             ProcessRol.showRol();
                             System.out.print("Ingrese el numero del nuevo rol: ");
                             option = read.nextLine();
-                            for(int i = 0; i < ProcessRol.rolListJSON.size(); i++)
-                            {
-                                if (Integer.parseInt(option) == ProcessRol.rolListJSON.get(i).getRol_id()) 
-                                {
-                                    rolId = ProcessRol.rolListJSON.get(i).getRol_id();
-                                    rolNombre = ProcessRol.rolListJSON.get(i).getRol_nombre();
-                                }
-                            }
+                            option = read.nextLine();
+                            int index = Integer.parseInt(option);
+
+                            rol = new Rol();
+                            rol.setRol_id(ProcessRol.rolListJSON.get(index -1).getRol_id());
+                            user.setRol(rol);
                             break;
                         default:
                             System.out.println("Por favor ingrese un valor valido");

@@ -95,5 +95,6 @@ public class ProcessEmploye {
         boolean log = true;
         System.out.println("Ingrese el numero del empleado que desea desactivar");
         empl = read.nextLine();
+        
     }
 }
