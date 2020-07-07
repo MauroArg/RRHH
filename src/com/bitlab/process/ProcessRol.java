@@ -71,7 +71,7 @@ public class ProcessRol
         String response = "";
             
             
-        System.out.println("Ingrese el nombre del departamento: ");
+        System.out.println("Ingrese el nombre del rol: ");
         out.println(read.nextLine());
             
         try 
@@ -97,7 +97,7 @@ public class ProcessRol
         
         
         showRol();
-        System.out.println("¿Que departamanto quiere modificar?");
+        System.out.println("¿Que rol quiere modificar?");
         depto = read.nextLine();
         int id;
         String nombre;
@@ -113,7 +113,7 @@ public class ProcessRol
                     
                     rol.put("id", id);
                     rol.put("nombre", nombre);
-                    data.put("departament", rol);
+                    data.put("rol", rol);
                     out.println(data.toJSONString());
                 }
             }
