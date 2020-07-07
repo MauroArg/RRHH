@@ -259,14 +259,17 @@ public class Client {
                                 case "1":
                                     log2 = false;
                                     out.println("list");
+                                    ProcessRol.showRol();
                                     break;
                                 case "2":
                                     log2 = false;
                                     out.println("create");
+                                    ProcessRol.createRol(in, out, read);
                                     break;
                                 case "3":
                                     log2 = false;
                                     out.println("update");
+                                    ProcessRol.updateRol(in, out, read);
                                     break;
                                 case "4":
                                     log2 = false;
