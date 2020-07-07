@@ -2,6 +2,8 @@ package com.bitlab.app;
 import com.bitlab.process.ProcessDepartament;
 import com.bitlab.entity.Departament;
 import com.bitlab.entity.User;
+import com.bitlab.process.ProcessRol;
+import com.bitlab.process.ProcessUser;
 import com.bitlab.utility.Encryption;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,34 +51,9 @@ public class Client {
             //-
             //Se prepara el objeto para leer las respuestas
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            //-
-            //Setting the email
-            //out.println(correo);
-            //-
-            //Crating menu
-            StringBuilder menu = new StringBuilder();
-            menu.append("Bienvenido a G-GPU. ¿Qué deseas ver/realizar?\n");
-            menu.append("[1] Ver Detalles de estado del servidor.\n");
-            menu.append("[2] Enviar por EMAIL detalles del servidor.\n");
-            menu.append("[3] Salir.\n");
-            menu.append("Por favor escoga una respuesta: ");
-            String resp;
-            //-
             //LOGIN PROCESS
             menuAdmin(in, out, read);
             //loginProcess(in, out, read);
-            
-            //Server functions
-            /*while((resp = in.readLine()) != null){
-                if(resp.startsWith("good bye")){
-                    break;
-                }
-                else{
-                    if(resp.equalsIgnoreCase("printMenu")){System.out.println(menu);}
-                    else{System.out.println("Server say: " + resp);System.out.println(menu);}
-                    out.println(read.nextLine());
-                }
-            }*/
             
             in.close();
             out.close();
@@ -169,7 +146,8 @@ public class Client {
         JSONParser parser = new JSONParser();//JSON Parser
         Departament departament = new Departament();
         ArrayList<Departament> departamentListJSON = new ArrayList();
-        boolean log = true;
+        boolean log = true;//Flag
+        boolean log2 = true;//Flag2
         
         log = true;
         while(log)
@@ -193,47 +171,118 @@ public class Client {
                 {
                     case "1":
                         out.println("gestDepartament");
-                         ProcessDepartament.getDep(in, out,read);
-                         System.out.println("Eliga una opcion \n [1] Listar departamento \n[2] Agregar departamento\n [3]Modificar departamento");
+                        log2 = true;
+                        ProcessDepartament.getDep(in, out,read);
+                        while(log2)
+                        {
+                         System.out.println("Eliga una opcion \n[1] Listar departamento \n[2] Agregar departamento\n[3]Modificar departamento\n[4] Salir");
                          option2 = read.nextLine();
                          switch (option2)
                          {
                              case "1":
+                                 log2 = false;
                                  out.println("list");
                                  ProcessDepartament.showDepartament();
                                  break;
                              case "2":
+                                 log2 = false;
                                  out.println("create");
                                  ProcessDepartament.createDep(in, out, read);
                                  break;
                              case "3":
+                                 log2 = false;
                                  out.println("update");
                                  ProcessDepartament.updateDep(in, out, read);
                                  break;
+                             case "4":
+                                 log2 = false;
+                                 out.println("exit");
+                                 break;
+                             default:
+                                 System.out.println("Por favor ingrese un valor valido.");
+                                 break;
                          }
+                        }
                         break;
-
-
                     case "2":
                         out.println("gestEmploy");
-                        
                         break;
                     case "3":
                         out.println("gestUser");
-                        AppProcess.getUser(in, out, read);
-                        AppProcess.showUser();
+                        log2 = true;
+                        ProcessUser.getUser(in, out, read);
+                        while(log2)
+                        {
+                            System.out.println("Eliga una opcion: \n[1] Listar usuarios \n[2] Agregar usuario \n[3] Modificar usuario \n[4] Eliminar usuario \n[5] Salir");
+                            option2 = read.nextLine();
+                            switch(option2)
+                            {
+                                case "1":
+                                    log2 = false;
+                                    out.println("list");
+                                    ProcessUser.showUser();
+                                    break;
+                                case "2":
+                                    log2 = false;
+                                    out.println("create");
+                                    ProcessUser.createUser(in, out, read);
+                                    break;
+                                case "3":
+                                    log2 = false;
+                                    out.println("update");
+                                    ProcessUser.updateUser(in, out, read);
+                                    break;
+                                case "4":
+                                    log2 = false;
+                                    out.println("delete");
+                                    ProcessUser.deleteUser(in, out, read);
+                                    break;
+                                case "5":
+                                    log2 = false;
+                                    out.println("exit");
+                                    break;
+                                default:
+                                    System.out.println("Ingrese una opcion valida");
+                            }
+                        }
                         break;
                     case "4":
                         out.println("gestRol");
+                        log2 = true;
+                        ProcessRol.getRol(in, out, read);
+                        while(log)
+                        {
+                            System.out.println("Eliga una opcion: \n[1] Listar Roles \n[2] Agregar Rol \n[3] Modificar Rol \n[4] Salir");
+                            option2 = read.nextLine();
+                            switch(option2)
+                            {
+                                case "1":
+                                    log2 = false;
+                                    out.println("list");
+                                    break;
+                                case "2":
+                                    log2 = false;
+                                    out.println("create");
+                                    break;
+                                case "3":
+                                    log2 = false;
+                                    out.println("update");
+                                    break;
+                                case "4":
+                                    log2 = false;
+                                    out.println("exit");
+                                    break;
+                                default:
+                                    System.out.println("Ingrese una opcion valida");
+                                    break;
+                            }
+                        }
                         break;
                     case "5":
                         if (exit(read)) 
                         {
                             log = false;
-                        }
-                        else
-                        {
-                            System.out.println("\n");
+                            out.println("exit");
                         }
                         break;
                 }
