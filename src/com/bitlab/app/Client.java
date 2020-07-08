@@ -71,6 +71,7 @@ public class Client {
     public static void loginProcess(BufferedReader in, PrintWriter out, Scanner read){
         String serverResponse = "";//Server petitions
         String logResponse = "";// log result
+        String option;
         Encryption enc = new Encryption();// Instance to encrypt passwords;
         boolean log = true;// Flag to stay in the system
         try {
@@ -141,31 +142,48 @@ public class Client {
             while(log)
             {
                 System.out.print("Ingrese el codigo enviado a su correo: ");
-                out.println(read.nextLine());
+                option =read.nextLine();
+                if (isNumeric(option)) 
+                {
+                    out.println(option);
                 
-                logResponse = in.readLine();
-                if (logResponse.equals("1")) 
-                {
-                    log = false;
-                    menuAdmin(in, out, read);
-                }
-                else if(logResponse.equals("2"))
-                {
-                    log = false;
-                    menuRrhh(in, out, read);
+                    logResponse = in.readLine();
+                    if (logResponse.equals("1")) 
+                    {
+                        log = false;
+                        menuAdmin(in, out, read);
+                    }
+                    else if(logResponse.equals("2"))
+                    {
+                        log = false;
+                        menuRrhh(in, out, read);
+                    }
+                    else
+                    {
+                        System.out.println("El codigo ingresado es incorrecto");
+                        try 
+                        {
+                            Thread.sleep(1000);
+                        } 
+                        catch (InterruptedException ex) 
+                        {
+                            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                 }
                 else
                 {
-                    System.out.println("El codigo ingresado es incorrecto");
+                    System.out.println("Por favor ingrese un valor numerico");
                     try 
-                    {
-                        Thread.sleep(1000);
-                    } 
-                    catch (InterruptedException ex) 
-                    {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                        {
+                            Thread.sleep(1000);
+                        } 
+                        catch (InterruptedException ex) 
+                        {
+                            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                 }
+                
                 
             }
         } catch (IOException ex) 

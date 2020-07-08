@@ -256,6 +256,9 @@ public class ProcessUser
                     System.out.println("Que desea editar del usuario " + nombre);
                     System.out.println("[1] Nombre de usuario\n[2] Correo del usuario\n[3] Contraseña del usuario\n[4] Rol del usuario");
                     campo = read.nextLine();
+                    rol = new Rol();
+                    rol.setRol_id(rolId);
+                    user.setRol(rol);
                     switch(campo)
                     {
                         case "1":
