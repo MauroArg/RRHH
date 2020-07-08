@@ -99,7 +99,7 @@ public class ProcessPayroll
         String estado = "";
         String resp = "";
         boolean flag = true;
-        System.out.println("\nNo\tFecha\tTotal\tEstado");
+        System.out.println("\nNo\tFecha\t\tTotal\t\tEstado");
         for (int i = 0; i < payrollListJSON.size(); i++) 
         {
             if (payrollListJSON.get(i).getPln_estado() == 0) 
@@ -125,12 +125,12 @@ public class ProcessPayroll
                     getDetailPayroll(in, out, read);
                     break;
                 case "2":
-                    out.println("generatePayroll");
+                    out.println("generate");
                     generatePayroll(in, out, read);
                     break;
                 case "3":
                     out.println("payPayroll");
-                    
+                    payPayroll(in, out, read);
                     break;
                 case "4":
                     flag = false;
@@ -224,140 +224,151 @@ public class ProcessPayroll
     
     public static void generatePayroll(BufferedReader in, PrintWriter out, Scanner read)
     {
-        String readDiurnas, readNocturnas;
-        boolean flag = true;
-        int diurnas = 0, nocturnas = 0;//- Cantidad de horas extras
-        Double totalP = 0.0;
-        Double sueldo = 0.0;//-Sueldo neto = sueldoEmpleado + (bonoHorasDiurnas) + (BonoHorasNocturnas);
-        Double bonoDiurnas = 0.0;//- Bono total por horas diurnas
-        Double bonoNocturnas = 0.0;///- Bono total por horas nocturnas
-        Double bonoTotal = 0.0;//-Bono total por horas extra
-        Double sueldoI = 0.0;//-Sueldo exacto del empelado
-        Double sueldoPorHora = 0.0;//-Calculo de sueldo por hora
-        //-Bonos por horas extras y sueldo para descuentos
-        //-Sueldo por hora
-        JSONArray data = new JSONArray();
-        
-        for(int i = 0; i < ProcessEmploye.employeListJSON.size(); i++)
-        {
-            sueldoI = ProcessEmploye.employeListJSON.get(i).getEmp_sueldo();
-            sueldoPorHora = (sueldoI / 30) / 8;
-            //-Bono por hora extra diurna
-            flag = true;
-            while(flag)
+        try {
+            if (in.readLine().equals("available"))
             {
-                System.out.print("Ingrese la cantidad de horas extra diurnas del empleado (si no hizo coloque 0)");
-                readDiurnas = read.nextLine();
-                if (isNumeric(readDiurnas)) 
+                String readDiurnas, readNocturnas;
+                boolean flag = true;
+                int diurnas = 0, nocturnas = 0;//- Cantidad de horas extras
+                Double totalP = 0.0;
+                Double sueldo = 0.0;//-Sueldo neto = sueldoEmpleado + (bonoHorasDiurnas) + (BonoHorasNocturnas);
+                Double bonoDiurnas = 0.0;//- Bono total por horas diurnas
+                Double bonoNocturnas = 0.0;///- Bono total por horas nocturnas
+                Double bonoTotal = 0.0;//-Bono total por horas extra
+                Double sueldoI = 0.0;//-Sueldo exacto del empelado
+                Double sueldoPorHora = 0.0;//-Calculo de sueldo por hora
+                //-Bonos por horas extras y sueldo para descuentos
+                //-Sueldo por hora
+                JSONArray data = new JSONArray();
+
+                for(int i = 0; i < ProcessEmploye.employeListJSON.size(); i++)
                 {
-                    flag = false;
-                    diurnas = Integer.parseInt(readDiurnas);
-                }
-                else
-                {
-                    System.out.println("Por favor ingrese un valor valido");
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
+                    sueldoI = ProcessEmploye.employeListJSON.get(i).getEmp_sueldo();
+                    sueldoPorHora = (sueldoI / 30) / 8;
+                    //-Bono por hora extra diurna
+                    flag = true;
+                    while(flag)
+                    {
+                        System.out.print("Ingrese la cantidad de horas extra diurnas del empleado (si no hizo coloque 0)");
+                        readDiurnas = read.nextLine();
+                        if (isNumeric(readDiurnas)) 
+                        {
+                            flag = false;
+                            diurnas = Integer.parseInt(readDiurnas);
+                        }
+                        else
+                        {
+                            System.out.println("Por favor ingrese un valor valido");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
                     }
+                    bonoDiurnas = diurnas * (sueldoPorHora * 2);
+                    //-Bono por hora extra nocturna
+
+                    flag = true;
+                    while(flag)
+                    {
+                        System.out.print("Ingrese la cantidad de horas extra nocturnas del empleado (si no hizo coloque 0)");
+                        readNocturnas = read.nextLine();
+                        if (isNumeric(readNocturnas)) 
+                        {
+                            flag = false;
+                            diurnas = Integer.parseInt(readNocturnas);
+                        }
+                        else
+                        {
+                            System.out.println("Por favor ingrese un valor valido");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                    bonoNocturnas = nocturnas * (sueldoPorHora * 2.25);
+                    //-Bono total por horas extras
+                    bonoTotal = bonoDiurnas + bonoNocturnas;
+                    //-sueldo para descuentos
+                    sueldo = sueldoI + bonoTotal;
+                    //-Variables para descuentos
+                    Double nSueldo = 0.0;//- Sueldo para renta
+                    Double afp = 0.0, isss = 0.0, renta = 0.0, cuota = 0.0;// descuentos
+                    Double tDescuentos = 0.0,total = 0.0;//- Total a pagar(Sueldo - descuentos) y total descuetnos
+                    //AFP 7.25%
+                    afp = sueldo * 0.0725;
+
+                    //ISSS 3% MÃ�XIMO $30 MENSUALES
+                    isss = sueldo * 0.03;
+                    if(isss>30.0){isss=30.0;}
+
+                    //- SUELDO TO RENTA
+                    nSueldo = sueldo - afp - isss;
+
+                    //----------- RENTA --------------
+                    //TRAMO 1 
+                    //- DE 0.01 A 472.0
+                    if(nSueldo>=0.01 && nSueldo<=472.0){
+                        cuota = 0.0;
+                        renta = 0.0;
+                    }
+
+                    //TRAMO 2
+                    //- DE 472.01 A 895.24
+                    if(nSueldo>=472.01 && nSueldo<=895.24){
+                        cuota = 17.67;
+                        renta =((sueldo - 472.0) * 0.1) + cuota;
+                    }
+
+                    //TRAMO 3
+                    //- DE 895.25 A 2038.10
+                    if(nSueldo>=895.25 && nSueldo<=2038.10){
+                        cuota = 60.00;
+                        renta =((sueldo - 895.24) * 0.2) + cuota;
+                    }
+
+                    //TRAMO 4
+                    //- DE 2038.11 ->
+                    if(nSueldo>=2038.11){
+                        cuota = 288.57;
+                        renta =((sueldo - 2038.10) * 0.3) + cuota;
+                    }
+
+                    //-Total de descuentos
+                    tDescuentos = renta + isss + afp;
+                    //-Total a pagar al empleado
+                    total = sueldo - tDescuentos;
+                    totalP += total;
+                    JSONObject ob = new JSONObject();
+                    ob.put("empleado",ProcessEmploye.employeListJSON.get(i).getEmp_id());
+                    ob.put("total", total);
+                    ob.put("diurnas", diurnas);
+                    ob.put("nocturnas",nocturnas);
+                    ob.put("descuentos", tDescuentos);
+                    ob.put("afp", afp);
+                    ob.put("renta", renta);
+                    ob.put("isss", isss);
+                    ob.put("bono", bonoTotal);
+                    data.add(ob);
+                }
+                JSONObject json = new JSONObject();
+                json.put("total", totalP);
+                json.put("detail", data);
+                out.println(json.toJSONString());
+                try 
+                {
+                    System.out.println(in.readLine());
+                } catch (IOException ex) {
+                    Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            bonoDiurnas = diurnas * (sueldoPorHora * 2);
-            //-Bono por hora extra nocturna
-            
-            flag = true;
-            while(flag)
+            else
             {
-                System.out.print("Ingrese la cantidad de horas extra nocturnas del empleado (si no hizo coloque 0)");
-                readNocturnas = read.nextLine();
-                if (isNumeric(readNocturnas)) 
-                {
-                    flag = false;
-                    diurnas = Integer.parseInt(readNocturnas);
-                }
-                else
-                {
-                    System.out.println("Por favor ingrese un valor valido");
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+                System.out.println("Ya fue creada la planilla de este mes");
             }
-            bonoNocturnas = nocturnas * (sueldoPorHora * 2.25);
-            //-Bono total por horas extras
-            bonoTotal = bonoDiurnas + bonoNocturnas;
-            //-sueldo para descuentos
-            sueldo = sueldoI + bonoTotal;
-            //-Variables para descuentos
-            Double nSueldo = 0.0;//- Sueldo para renta
-            Double afp = 0.0, isss = 0.0, renta = 0.0, cuota = 0.0;// descuentos
-            Double tDescuentos = 0.0,total = 0.0;//- Total a pagar(Sueldo - descuentos) y total descuetnos
-            //AFP 7.25%
-            afp = sueldo * 0.0725;
-
-            //ISSS 3% MÃ�XIMO $30 MENSUALES
-            isss = sueldo * 0.03;
-            if(isss>30.0){isss=30.0;}
-
-            //- SUELDO TO RENTA
-            nSueldo = sueldo - afp - isss;
-
-            //----------- RENTA --------------
-            //TRAMO 1 
-            //- DE 0.01 A 472.0
-            if(nSueldo>=0.01 && nSueldo<=472.0){
-                cuota = 0.0;
-                renta = 0.0;
-            }
-
-            //TRAMO 2
-            //- DE 472.01 A 895.24
-            if(nSueldo>=472.01 && nSueldo<=895.24){
-                cuota = 17.67;
-                renta =((sueldo - 472.0) * 0.1) + cuota;
-            }
-
-            //TRAMO 3
-            //- DE 895.25 A 2038.10
-            if(nSueldo>=895.25 && nSueldo<=2038.10){
-                cuota = 60.00;
-                renta =((sueldo - 895.24) * 0.2) + cuota;
-            }
-
-            //TRAMO 4
-            //- DE 2038.11 ->
-            if(nSueldo>=2038.11){
-                cuota = 288.57;
-                renta =((sueldo - 2038.10) * 0.3) + cuota;
-            }
-
-            //-Total de descuentos
-            tDescuentos = renta + isss + afp;
-            //-Total a pagar al empleado
-            total = sueldo - tDescuentos;
-            totalP += total;
-            JSONObject ob = new JSONObject();
-            ob.put("empleado",ProcessEmploye.employeListJSON.get(i).getEmp_id());
-            ob.put("total", total);
-            ob.put("diurnas", diurnas);
-            ob.put("nocturnas",nocturnas);
-            ob.put("descuentos", tDescuentos);
-            ob.put("afp", afp);
-            ob.put("renta", renta);
-            ob.put("isss", isss);
-            ob.put("bono", bonoTotal);
-            data.add(ob);
-        }
-        JSONObject json = new JSONObject();
-        json.put("total", totalP);
-        json.put("detail", data);
-        out.println(json.toJSONString());
-        try 
-        {
-            System.out.println(in.readLine());
         } catch (IOException ex) {
             Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -55,7 +55,7 @@ public class Client {
             //Sets the object to read the responses
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             //LOGIN PROCESS
-            menuAdmin(in, out, read);
+            loginProcess(in, out, read);
             //loginProcess(in, out, read);
             
             //Close all kind of  connection to the socket
@@ -387,7 +387,7 @@ public class Client {
                         break;
                     case "2":
                         log2 = true;
-                        out.println("gestPayrol");
+                        out.println("gestPayroll");
                         ProcessPayroll.getPayroll(in, out, read);
                         ProcessPayroll.showPayrollWithMenu(in, out, read);
                         break;
