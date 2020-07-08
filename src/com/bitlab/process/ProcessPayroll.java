@@ -243,13 +243,14 @@ public class ProcessPayroll
 
                 for(int i = 0; i < ProcessEmploye.employeListJSON.size(); i++)
                 {
+                    System.out.println("Para el empleado: " + ProcessEmploye.employeListJSON.get(i).getEmp_nombres()+"\n");
                     sueldoI = ProcessEmploye.employeListJSON.get(i).getEmp_sueldo();
                     sueldoPorHora = (sueldoI / 30) / 8;
                     //-Bono por hora extra diurna
                     flag = true;
                     while(flag)
                     {
-                        System.out.print("Ingrese la cantidad de horas extra diurnas del empleado (si no hizo coloque 0)");
+                        System.out.print("Ingrese la cantidad de horas extra diurnas del empleado (si no hizo coloque 0): ");
                         readDiurnas = read.nextLine();
                         if (isNumeric(readDiurnas)) 
                         {
@@ -272,7 +273,7 @@ public class ProcessPayroll
                     flag = true;
                     while(flag)
                     {
-                        System.out.print("Ingrese la cantidad de horas extra nocturnas del empleado (si no hizo coloque 0)");
+                        System.out.print("Ingrese la cantidad de horas extra nocturnas del empleado (si no hizo coloque 0): ");
                         readNocturnas = read.nextLine();
                         if (isNumeric(readNocturnas)) 
                         {

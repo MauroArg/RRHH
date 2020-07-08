@@ -389,6 +389,7 @@ public class Client {
                         log2 = true;
                         out.println("gestPayroll");
                         ProcessPayroll.getPayroll(in, out, read);
+                        ProcessEmploye.getEmploye(in, out, read);
                         ProcessPayroll.showPayrollWithMenu(in, out, read);
                         break;
                     case "3":

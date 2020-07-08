@@ -42,7 +42,7 @@ public class ProcessEmploye {
             employeListJSON.clear();
             logResponse = in.readLine();
             JSONObject obj = (JSONObject) parser.parse(logResponse);
-            JSONArray array = (JSONArray) obj.get("employes");
+            JSONArray array = (JSONArray) obj.get("employees");
             for (Object item : array) 
             {
                 employe = new Employe();
