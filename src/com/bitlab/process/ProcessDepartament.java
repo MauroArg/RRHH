@@ -21,10 +21,11 @@ import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author Mauricio
+ * @author Mauricio Argumedo
  */
 public class ProcessDepartament 
 {
+    //Object of departaments
     Departament departament = new Departament();
     static ArrayList<Departament> departamentListJSON = new ArrayList();//List of departaments
     static String depto; //Option selected to edit
@@ -37,6 +38,7 @@ public class ProcessDepartament
         JSONParser parser = new JSONParser();//JSON Parser
         Departament departament = new Departament();
         
+        //Obtains the json with the departaments from the socket and parse them into a list
         try
         {
             departamentListJSON.clear();
@@ -74,8 +76,7 @@ public class ProcessDepartament
     {
         String response = "";
         
-        
-        System.out.println("Ingrese el nombre del departamento: ");
+        System.out.print("Ingrese el nombre del departamento: ");
         out.println(read.nextLine());
         
         try 
@@ -95,6 +96,7 @@ public class ProcessDepartament
     //Update a selected departament
     public static void updateDep(BufferedReader in, PrintWriter out, Scanner read)
     {
+        boolean flag = true;
         ArrayList<Departament> list = new ArrayList();
         JSONObject data = new JSONObject();
         JSONObject dep = new JSONObject();
@@ -103,24 +105,36 @@ public class ProcessDepartament
         
         
         showDepartament();
-        System.out.println("¿Que departamanto quiere modificar?");
-        depto = read.nextLine();
-        int id;
-        String nombre;
-        if (isNumeric(depto)) 
+        while(flag)
         {
-            for(int i = 0; i < departamentListJSON.size(); i++)
+            System.out.print("¿Que departamanto quiere modificar?");
+            depto = read.nextLine();
+            int id;
+            String nombre;
+            if (isNumeric(depto) && Integer.parseInt(depto) <= departamentListJSON.size() && Integer.parseInt(depto) > 0) 
             {
-                if (i == Integer.parseInt(depto)-1) 
+                for(int i = 0; i < departamentListJSON.size(); i++)
                 {
-                    id = departamentListJSON.get(i).getDep_id();
-                    System.out.println("Ingrese el nuevo nombre: ");
-                    nombre = read.nextLine();
-                    
-                    dep.put("id", id);
-                    dep.put("nombre", nombre);
-                    data.put("departament", dep);
-                    out.println(data.toJSONString());
+                    if (i == Integer.parseInt(depto)-1) 
+                    {
+                        id = departamentListJSON.get(i).getDep_id();
+                        System.out.print("Ingrese el nuevo nombre: ");
+                        nombre = read.nextLine();
+
+                        dep.put("id", id);
+                        dep.put("nombre", nombre);
+                        data.put("departament", dep);
+                        out.println(data.toJSONString());
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("Por favor ingrese un valor valido");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProcessDepartament.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

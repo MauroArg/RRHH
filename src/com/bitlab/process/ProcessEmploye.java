@@ -21,7 +21,7 @@ import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author Maury
+ * @author Mauricio Argumedo
  */
 public class ProcessEmploye {
     static Employe employe = new Employe();
@@ -46,6 +46,7 @@ public class ProcessEmploye {
             for (Object item : array) 
             {
                 employe = new Employe();
+                departament = new Departament();
                 JSONObject object = (JSONObject) item;
                 employe.setEmp_id(Integer.parseInt(object.get("id").toString()));
                 employe.setEmp_nombres(object.get("nombres").toString());
@@ -73,19 +74,19 @@ public class ProcessEmploye {
     
     public static void showEmploy()
     {
-        System.out.println("\nNo\tCodigo\tNombres\t\tApellidos\t\tCorreo\t\tDireccion\t\tTelefono\t\tDUI\t\tNIT\t\tSueldo\t\tJefe\t\tDepartamento");
+        System.out.println("\nNo\tCodigo\tNombres\t\t\t\tApellidos\t\t\t\tCorreo\t\t\t\tDireccion\t\t\tTelefono\t\tDUI\t\t\tNIT\t\t\tSueldo\t\tJefe\t\tDepartamento");
         for (int i = 0; i < employeListJSON.size(); i++) 
         {
             System.out.println(i + 1 + "\t" + employeListJSON.get(i).getEmp_codigo() + "\t" + employeListJSON.get(i).getEmp_nombres()+ "\t" + employeListJSON.get(i).getEmp_apellidos()
             + "\t" + employeListJSON.get(i).getEmp_correo() + "\t" + employeListJSON.get(i).getEmp_direccion() + "\t" + employeListJSON.get(i).getEmp_telefono() +
                     "\t" + employeListJSON.get(i).getEmp_dui() + "\t" + employeListJSON.get(i).getEmp_nit() + "\t" + "$ " + employeListJSON.get(i).getEmp_sueldo() + 
-                    "\t" + employeListJSON.get(i).getEmp_jef_nombre() + "\t" + employeListJSON.get(i).getDepartament().getDep_nombre() + "\n");
+                    "\t" + employeListJSON.get(i).getEmp_jef_nombre() + "\t" + employeListJSON.get(i).getDepartament().getDep_nombre());
         }
     }
     
     public static void showEmployAvailable()
     {
-        System.out.println("\nNo\tCodigo\tNombres\t\tApellidos\t\tCorreo\t\tDireccion\t\tTelefono\t\tDUI\t\tNIT\t\tSueldo\t\tJefe\t\tDepartamento");
+        System.out.println("\nNo\tCodigo\tNombres\t\t\t\tApellidos\t\t\t\tCorreo\t\t\t\tDireccion\t\t\tTelefono\t\tDUI\t\t\tNIT\t\t\tSueldo\t\tJefe\t\tDepartamento");
         for (int i = 0; i < employeListJSON.size(); i++) 
         {
             if (employeListJSON.get(i).getEmp_estado() == 0) 
@@ -166,7 +167,7 @@ public class ProcessEmploye {
         json.put("estado", "0");
         
         //Send the json
-        detailsJson.put("employe", json);
+        detailsJson.put("employes", json);
         out.println(detailsJson);   
         try 
         {
@@ -221,32 +222,27 @@ public class ProcessEmploye {
         boolean flag = true;
         while(flag)
         {
-            if (isNumeric(empl)) 
+            if (isNumeric(empl) && Integer.parseInt(empl) <= employeListJSON.size() && Integer.parseInt(empl) > 0) 
             {
                 flag = false;
-                for (int i = 0; i < employeListJSON.size(); i++) 
-                {
-                    if (i == Integer.parseInt(empl) - 1) 
-                    {
-                        id = employeListJSON.get(i).getEmp_id();
-                        nombres = employeListJSON.get(i).getEmp_nombres();
-                        apellidos = employeListJSON.get(i).getEmp_apellidos();
-                        codigo = employeListJSON.get(i).getEmp_codigo();
-                        dui = employeListJSON.get(i).getEmp_dui();
-                        nit = employeListJSON.get(i).getEmp_nit();
-                        direccion = employeListJSON.get(i).getEmp_direccion();
-                        correo = employeListJSON.get(i).getEmp_correo();
-                        sueldo = employeListJSON.get(i).getEmp_sueldo();
-                        estado = employeListJSON.get(i).getEmp_estado();
-                        jefeId = employeListJSON.get(i).getEmp_jef_id();
-                        telefono = employeListJSON.get(i).getEmp_telefono();
-                        depId = employeListJSON.get(i).getDepartament().getDep_id();
-                    }
-                }
+                
+                id = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_id();
+                nombres = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_nombres();
+                apellidos = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_apellidos();
+                codigo = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_codigo();
+                dui = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_dui();
+                nit = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_nit();
+                direccion = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_direccion();
+                correo = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_correo();
+                sueldo = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_sueldo();
+                estado = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_estado();
+                jefeId = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_jef_id();
+                telefono = employeListJSON.get(Integer.parseInt(empl)-1).getEmp_telefono();
+                depId = employeListJSON.get(Integer.parseInt(empl)-1).getDepartament().getDep_id();
 
                 while (log) 
                 {
-                    System.out.println("Que desea editar del empleado " + nombres);
+                    System.out.println("¿Que desea editar del empleado " + nombres + "?");
                     System.out.println("[1] Nombre del empleado\n[2] Apellido del empleado\n[3] Codigo del empleado\n[4] DUI del empleado\n[5] NIT del empleado\n[6] Direccion del empleado" + 
                             "\n[7] Correo del empleado\n[8] Sueldo del empleado\n[9] Jefe del empleado\n[10] Telefono del empleado\n[11] Departamento del empleado");
                     System.out.print("Ingrese un valor: ");
@@ -314,13 +310,23 @@ public class ProcessEmploye {
                             int index2 = Integer.parseInt(option);
                             departament = new Departament();
                             departament.setDep_id(ProcessDepartament.departamentListJSON.get(index2-1).getDep_id());
-                            employe.setDepartament(departament);
+                            depId = departament.getDep_id();
                             break;
                         default:
                             System.out.println("Por favor ingrese un valor valido");
+                            try 
+                            {
+                                Thread.sleep(1000);
+                            } 
+                            catch (InterruptedException ex) 
+                            {
+                                Logger.getLogger(ProcessEmploye.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             break;
+
                     }
                 }
+                departament.setDep_id(depId);
                 employe.setEmp_id(id);
                 employe.setEmp_nombres(nombres);
                 employe.setEmp_apellidos(apellidos);
@@ -393,7 +399,7 @@ public class ProcessEmploye {
             System.out.println("Ingrese el numero del empleado que desea desactivar");
             empl = read.nextLine();
 
-            if (isNumeric(empl)) {
+            if (isNumeric(empl) && Integer.parseInt(empl) <= employeListJSON.size() && Integer.parseInt(empl) > 0) {
                 flag = false;
                 try {
                     for (int i = 0; i < employeListJSON.size(); i++) {
@@ -418,6 +424,14 @@ public class ProcessEmploye {
                                 break;
                             default:
                                 System.out.println("Por favor ingrese un valor valido");
+                                try 
+                                {
+                                    Thread.sleep(1000);
+                                } 
+                                catch (InterruptedException ex) 
+                                {
+                                    Logger.getLogger(ProcessUser.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                                 break;
                         }
                     }

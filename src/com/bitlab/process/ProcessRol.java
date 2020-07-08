@@ -26,7 +26,7 @@ public class ProcessRol
 {
    
     public static ArrayList<Rol> rolListJSON = new ArrayList();//List of rols
-    public static String depto; //Option selected to edit
+    public static String rl; //Option selected to edit
     
     //Obtain all rols from socket
     public static void getRol(BufferedReader in, PrintWriter out, Scanner read)
@@ -76,6 +76,7 @@ public class ProcessRol
             
         try 
         {
+            //Get a response from socket
             response = in.readLine();
 
             getRol(in, out, read);
@@ -89,6 +90,7 @@ public class ProcessRol
     
     public static void updateRol(BufferedReader in, PrintWriter out, Scanner read)
     {
+        boolean flag = true;
         ArrayList<Rol> list = new ArrayList();
         JSONObject data = new JSONObject();
         JSONObject rol = new JSONObject();
@@ -97,24 +99,28 @@ public class ProcessRol
         
         
         showRol();
-        System.out.println("¿Que rol quiere modificar?");
-        depto = read.nextLine();
-        int id;
-        String nombre;
-        if (isNumeric(depto)) 
+        while(flag)
         {
-            for(int i = 0; i < rolListJSON.size(); i++)
+            System.out.println("¿Que rol quiere modificar?");
+            rl = read.nextLine();
+            int id;
+            String nombre;
+            if (isNumeric(rl) && Integer.parseInt(rl)<= rolListJSON.size() && Integer.parseInt(rl) > 0) 
             {
-                if (i == Integer.parseInt(depto)-1) 
+                flag = false;
+                for(int i = 0; i < rolListJSON.size(); i++)
                 {
-                    id = rolListJSON.get(i).getRol_id();
-                    System.out.println("Ingrese el nuevo nombre: ");
-                    nombre = read.nextLine();
-                    
-                    rol.put("id", id);
-                    rol.put("nombre", nombre);
-                    data.put("rol", rol);
-                    out.println(data.toJSONString());
+                    if (i == Integer.parseInt(rl)-1) 
+                    {
+                        id = rolListJSON.get(i).getRol_id();
+                        System.out.println("Ingrese el nuevo nombre: ");
+                        nombre = read.nextLine();
+
+                        rol.put("id", id);
+                        rol.put("nombre", nombre);
+                        data.put("rol", rol);
+                        out.println(data.toJSONString());
+                    }
                 }
             }
         }

@@ -147,7 +147,7 @@ public class ProcessUser
         {
             System.out.print("Ingrese el usuario que desea eliminar ");
             usr = read.nextLine();
-            if (isNumeric(usr)) 
+            if (isNumeric(usr) && Integer.parseInt(usr) <= userListJSON.size() && Integer.parseInt(usr) > 0) 
             {
                 flag = false;
                 try 
@@ -235,7 +235,7 @@ public class ProcessUser
         boolean flag = true;
         while(flag)
         {
-            if (isNumeric(usr)) 
+            if (isNumeric(usr) && Integer.parseInt(usr) <= userListJSON.size() && Integer.parseInt(usr) > 0) 
             {
                 flag = false;
                 for (int i = 0; i < userListJSON.size(); i++) 

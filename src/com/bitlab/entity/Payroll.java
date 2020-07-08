@@ -13,15 +13,17 @@ public class Payroll
 {
     private int    pln_id;
     private String pln_fecha;
-    private String pln_total;
+    private Double pln_total;
+    private int pln_estado;
 
     public Payroll() {
     }
 
-    public Payroll(int pln_id, String pln_fecha, String pln_total) {
+    public Payroll(int pln_id, String pln_fecha, Double pln_total, int pln_estado) {
         this.pln_id = pln_id;
         this.pln_fecha = pln_fecha;
         this.pln_total = pln_total;
+        this.pln_estado = pln_estado;
     }
 
     public int getPln_id() {
@@ -40,13 +42,25 @@ public class Payroll
         this.pln_fecha = pln_fecha;
     }
 
-    public String getPln_total() {
+    public Double getPln_total() {
         return pln_total;
     }
 
-    public void setPln_total(String pln_total) {
+    public void setPln_total(Double pln_total) {
         this.pln_total = pln_total;
     }
+
+    public int getPln_estado() {
+        return pln_estado;
+    }
+
+    public void setPln_estado(int pln_estado) {
+        this.pln_estado = pln_estado;
+    }
+    
+    
+
+    
     
     
 }
