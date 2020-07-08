@@ -117,10 +117,10 @@ public class ProcessDepartament
                 {
                     if (i == Integer.parseInt(depto)-1) 
                     {
+                        flag = false;
                         id = departamentListJSON.get(i).getDep_id();
                         System.out.print("Ingrese el nuevo nombre: ");
                         nombre = read.nextLine();
-
                         dep.put("id", id);
                         dep.put("nombre", nombre);
                         data.put("departament", dep);

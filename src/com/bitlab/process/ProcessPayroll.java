@@ -193,7 +193,7 @@ public class ProcessPayroll
                 payrollDetail.setDet_pln_afp(Double.parseDouble(object.get("afp").toString()));
                 payrollDetail.setDet_pln_cantidad_horas_extra_diurnas(Byte.parseByte(object.get("diurnas").toString()));
                 payrollDetail.setDet_pln_cantidad_horas_extra_nocturnas(Byte.parseByte(object.get("nocturnas").toString()));
-                payrollDetail.setDet_pln_bono_horas_extra(Byte.parseByte(object.get("bono").toString()));
+                payrollDetail.setDet_pln_bono_horas_extra(Double.parseDouble(object.get("bono").toString()));
                 payrollDetail.setDet_pln_isss(Double.parseDouble(object.get("isss").toString()));
                 payrollDetail.setDet_pln_renta(Double.parseDouble(object.get("renta").toString()));
                 payrollDetail.setDet_pln_total(Double.parseDouble(object.get("total").toString()));

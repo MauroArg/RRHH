@@ -297,9 +297,9 @@ public class ProcessUser
                 //Add data to a json
                 JSONObject json = new JSONObject();
                 json.put("id", user.getUs_id());
-                json.put("username", user.getUs_usuario());
-                json.put("password", user.getUs_contra());
-                json.put("correo", user.getUs_correo());
+                json.put("username",  nombre);
+                json.put("password", contra);
+                json.put("correo", correo);
                 json.put("rol_id", user.getRol().getRol_id());
                 //Send json with the data
                 detailsJson.put("user", json);

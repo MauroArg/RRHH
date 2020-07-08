@@ -120,7 +120,7 @@ public class Client {
                 out.println(read.nextLine());
                 
                 logResponse = in.readLine();
-                if(logResponse.equals("vSuccessgul"))
+                if(logResponse.equals("vSuccessful"))
                 {
                     log = false;
                 }
@@ -208,23 +208,26 @@ public class Client {
                 {
                     case "1":
                         log2 = true;
+                        out.println("gestDepartament");
+                        ProcessDepartament.getDep(in, out, read);
                         while(log2)
                         {
-                         out.println("gestDepartament");
-                         ProcessDepartament.getDep(in, out,read);
                          System.out.print("[1] Listar departamento \n[2] Agregar departamento\n[3]Modificar departamento\n[4] Salir\nEliga una opcion: ");
                          option2 = read.nextLine();
                          switch (option2)
                          {
                              case "1":
+                                 log2 = false;
                                  out.println("list");
                                  ProcessDepartament.showDepartament();
                                  break;
                              case "2":
+                                 log2 = false;
                                  out.println("create");
                                  ProcessDepartament.createDep(in, out, read);
                                  break;
                              case "3":
+                                 log2 = false;
                                  out.println("update");
                                  ProcessDepartament.updateDep(in, out, read);
                                  break;
@@ -240,28 +243,32 @@ public class Client {
                         break;
                     case "2":
                         log2 = true;
+                        out.println("gestUser");
+                        ProcessUser.getUser(in, out, read);
                         while(log2)
                         {
-                            out.println("gestUser");
-                            ProcessUser.getUser(in, out, read);
                             ProcessRol.getRol(in, out, read);
                             System.out.print("[1] Listar usuarios \n[2] Agregar usuario \n[3] Modificar usuario \n[4] Eliminar usuario \n[5] Salir\nEligar una opcion: ");
                             option2 = read.nextLine();
                             switch(option2)
                             {
                                 case "1":
+                                    log2 = false;
                                     out.println("list");
                                     ProcessUser.showUser();
                                     break;
                                 case "2":
+                                    log2 = false;
                                     out.println("create");
                                     ProcessUser.createUser(in, out, read);
                                     break;
                                 case "3":
+                                    log2 = false;
                                     out.println("update");
                                     ProcessUser.updateUser(in, out, read);
                                     break;
                                 case "4":
+                                    log2 = false;
                                     out.println("delete");
                                     ProcessUser.deleteUser(in, out, read);
                                     break;
@@ -276,23 +283,26 @@ public class Client {
                         break;
                     case "3":
                         log2 = true;
+                        out.println("gestUser");
+                        ProcessUser.getUser(in, out, read);
                         while(log2)
                         {
-                            out.println("gestRol");
-                            ProcessRol.getRol(in, out, read);
                             System.out.print("[1] Listar Roles \n[2] Agregar Rol \n[3] Modificar Rol \n[4] Salir\nEliga una opcion: ");
                             option2 = read.nextLine();
                             switch(option2)
                             {
                                 case "1":
+                                    log2 = false;
                                     out.println("list");
                                     ProcessRol.showRol();
                                     break;
                                 case "2":
+                                    log2 = false;
                                     out.println("create");
                                     ProcessRol.createRol(in, out, read);
                                     break;
                                 case "3":
+                                    log2 = false;
                                     out.println("update");
                                     ProcessRol.updateRol(in, out, read);
                                     break;
@@ -354,27 +364,32 @@ public class Client {
                 {
                     case "1":
                         log2 = true;
+                        
+                        out.println("gestEmploye");
+                        ProcessEmploye.getEmploye(in, out, read);
                         while(log2)
                         {
-                            out.println("gestEmploye");
-                            ProcessEmploye.getEmploye(in, out, read);
                             ProcessDepartament.getDep(in, out, read);
                             System.out.print("[1] Listar empleados\n[2] Agregar empleado\n[3] Modificar empleado \n[4] Desactiva empleado por despido \n[5] Salir\nEliga una opcion");
                             option2 = read.nextLine();
                             switch (option2) {
                                 case "1":
+                                    log2 = false;
                                     out.println("list");
                                     ProcessEmploye.showEmploy();
                                     break;
                                 case "2":
+                                    log2 = false;
                                     out.println("create");
                                     ProcessEmploye.createEmploy(in, out, read);
                                     break;
                                 case "3":
+                                    log2 = false;
                                     out.println("update");
                                     ProcessEmploye.updateEmploy(in, out, read);
                                     break;
                                 case "4":
+                                    log2 = false;
                                     out.println("disable");
                                     ProcessEmploye.deleteEmploy(in, out, read);
                                     break;
