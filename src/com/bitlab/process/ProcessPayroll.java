@@ -102,7 +102,7 @@ public class ProcessPayroll
         System.out.println("\nNo\tFecha\t\tTotal\t\tEstado");
         for (int i = 0; i < payrollListJSON.size(); i++) 
         {
-            if (payrollListJSON.get(i).getPln_estado() == 0) 
+            if (payrollListJSON.get(i).getPln_estado() == 1) 
             {
                 estado = "Pagado";
             }
@@ -158,6 +158,7 @@ public class ProcessPayroll
                 {
                     flag = false;
                     id = payrollListJSON.get(Integer.parseInt(option) -1).getPln_id();
+                    out.println("getPayroll");
                     out.println(id);
                 }
                 else
