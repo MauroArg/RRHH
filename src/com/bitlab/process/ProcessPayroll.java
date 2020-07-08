@@ -125,6 +125,7 @@ public class ProcessPayroll
                     getDetailPayroll(in, out, read);
                     break;
                 case "2":
+                    flag = false;
                     out.println("generate");
                     generatePayroll(in, out, read);
                     break;
