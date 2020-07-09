@@ -301,8 +301,8 @@ public class Client {
                         break;
                     case "3":
                         log2 = true;
-                        out.println("gestUser");
-                        ProcessUser.getUser(in, out, read);
+                        out.println("gestRol");
+                        ProcessRol.getRol(in, out, read);
                         while(log2)
                         {
                             System.out.print("[1] Listar Roles \n[2] Agregar Rol \n[3] Modificar Rol \n[4] Salir\nEliga una opcion: ");

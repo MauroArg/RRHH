@@ -70,11 +70,11 @@ public class ProcessPayroll
         {
             if (payrollListJSON.get(i).getPln_estado() == 0) 
             {
-                estado = "Pagado";
+                estado = "Pendiente";
             }
             else
             {
-                estado = "Pendiente";
+                estado = "Pagado";
             }
             System.out.println(i + 1 + "\t" + payrollListJSON.get(i).getPln_fecha() + "\t" + payrollListJSON.get(i).getPln_total()
             + "\t" + estado);
@@ -87,7 +87,7 @@ public class ProcessPayroll
         System.out.println("\nNo\tFecha\tTotal");
         for (int i = 0; i < payrollListJSON.size(); i++) 
         {
-            if (payrollListJSON.get(i).getPln_estado() == 1) 
+            if (payrollListJSON.get(i).getPln_estado() == 0) 
             {
                 System.out.println(i + 1 + "\t" + payrollListJSON.get(i).getPln_fecha() + "\t" + payrollListJSON.get(i).getPln_total());
             }
@@ -139,6 +139,16 @@ public class ProcessPayroll
                     flag = false;
                     out.println("exit");
                     break;
+                default:
+                    System.out.println("Ingrese un valor valido");
+                {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProcessPayroll.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
             }
         }
     }
@@ -283,7 +293,7 @@ public class ProcessPayroll
                         if (isNumeric(readNocturnas)) 
                         {
                             flag = false;
-                            diurnas = Integer.parseInt(readNocturnas);
+                            nocturnas = Integer.parseInt(readNocturnas);
                         }
                         else
                         {
@@ -398,7 +408,7 @@ public class ProcessPayroll
                 while(flag2)
                 {
                     System.out.println("Quiere realizar el pago de la planilla de " + payrollListJSON.get(Integer.parseInt(option) -1).getPln_fecha() + "\n[1]Si\n[2]Cancelar");
-                    System.out.print("Eliga una opcion");
+                    System.out.print("Eliga una opcion: ");
                     very = read.nextLine();
                     switch(very)
                     {
@@ -406,9 +416,10 @@ public class ProcessPayroll
                             flag2 = false;
                             try 
                             {
-                                out.print("pay");
+                                out.println("pay");
                                 out.println(payrollListJSON.get(Integer.parseInt(option) -1).getPln_id());
                                 System.out.println(in.readLine());
+                                getPayroll(in, out, read);
                                 Thread.sleep(1000);
                             } 
                             catch (InterruptedException | IOException ex) 

@@ -167,7 +167,7 @@ public class ProcessEmploye {
         json.put("estado", "0");
         
         //Send the json
-        detailsJson.put("employes", json);
+        detailsJson.put("employe", json);
         out.println(detailsJson);   
         try 
         {
