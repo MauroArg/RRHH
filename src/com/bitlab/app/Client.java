@@ -30,8 +30,7 @@ public class Client {
     //-
     //CONSTANTS
     private static final int PORT = 8080;
-    private static final String IP = "localhost";
-    //private static final String IP = "35.202.115.165";
+    private static final String IP = "35.208.154.100";
     //-
     /**
      * @param args the command line arguments
@@ -56,6 +55,7 @@ public class Client {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             //LOGIN PROCESS
             loginProcess(in, out, read);
+            out.println("systemExit");
             //loginProcess(in, out, read);
             
             //Close all kind of  connection to the socket

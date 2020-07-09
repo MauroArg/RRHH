@@ -121,6 +121,7 @@ public class ProcessPayroll
             switch(resp)
             {
                 case "1":
+                    flag = false;
                     out.println("getPayrollDetail");
                     getDetailPayroll(in, out, read);
                     break;
@@ -130,6 +131,7 @@ public class ProcessPayroll
                     generatePayroll(in, out, read);
                     break;
                 case "3":
+                    flag = false;
                     out.println("payPayroll");
                     payPayroll(in, out, read);
                     break;
@@ -401,9 +403,11 @@ public class ProcessPayroll
                     switch(very)
                     {
                         case "1":
-                            out.println(payrollListJSON.get(Integer.parseInt(option) -1).getPln_id()); 
+                            flag2 = false;
                             try 
                             {
+                                out.print("pay");
+                                out.println(payrollListJSON.get(Integer.parseInt(option) -1).getPln_id());
                                 System.out.println(in.readLine());
                                 Thread.sleep(1000);
                             } 
